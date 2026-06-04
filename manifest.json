@@ -1,6 +1,6 @@
 {
-  "name": "記帳 App",
-  "short_name": "記帳",
+  "name": "記帳與現倉管理",
+  "short_name": "記帳與現倉管理",
   "description": "個人記帳與現倉管理工具",
   "start_url": "/bookkeeping-app/",
   "scope": "/bookkeeping-app/",
