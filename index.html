@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>記帳 App</title>
+<style>
+  :root {
+    --bg: #0d1b2a;
+    --teal: #2ec4a9;
+    --teal-dark: #25a892;
+    --red: #e84040;
+    --red-dark: #c93535;
+    --card-bg: #ffffff;
+    --card-dark: #162030;
+    --card-border: #e8eaf0;
+    --text-main: #1a2535;
+    --text-light: #ffffff;
+    --text-muted: #7a8a99;
+    --text-red: #e84040;
+    --text-teal: #2ec4a9;
+    --tab-bg: #0a1422;
+    --modal-bg: #1a2a3a;
+    --input-bg: #243040;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #111520;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  }
+
+  #phone-frame {
+    width: 393px;
+    height: 852px;
+    background: var(--bg);
+    border-radius: 44px;
+    box-shadow: 0 0 0 2px #2a2a3a, 0 0 0 10px #111118, 0 40px 80px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.05);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 500px) {
+    html, body { background: var(--bg); align-items: flex-start; }
+    #phone-frame { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+  }
+
+  /* ====== SCREENS ====== */
+  .screen { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+  .screen.active { display: flex; }
+
+  /* ====== TOP BAR ====== */
+  .top-bar {
+    background: var(--teal);
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .top-bar h1 { color: white; font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+  .top-bar .nav-btn {
+    color: white; font-size: 22px; font-weight: 700;
+    background: none; border: none; cursor: pointer; padding: 4px 10px; opacity: 0.9;
+  }
+  .top-bar .nav-btn:hover { opacity: 1; }
+
+  /* ====== SCROLL CONTENT ====== */
+  .scroll-content { flex: 1; overflow-y: auto; padding: 14px 12px 10px; -webkit-overflow-scrolling: touch; }
+  .scroll-content::-webkit-scrollbar { width: 3px; }
+  .scroll-content::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
+  .year-scroll { flex: 1; overflow-y: auto; padding: 14px 12px 10px; -webkit-overflow-scrolling: touch; }
+  .year-scroll::-webkit-scrollbar { width: 3px; }
+  .year-scroll::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
+
+  /* ====== RECORD CARDS ====== */
+  .record-card {
+    background: var(--card-bg); border-radius: 10px; padding: 13px 16px; margin-bottom: 8px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    border: 1px solid var(--card-border); transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .record-card:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+  .record-card:active { transform: scale(0.98); }
+  .record-card .left { font-size: 15px; color: var(--text-red); font-weight: 600; }
+  .record-card .left.income { color: var(--text-teal); }
+  .record-card .right { font-size: 15px; color: var(--text-muted); font-weight: 500; text-align: right; }
+  .record-card .right span { color: var(--text-red); font-weight: 700; }
+  .record-card .right span.income { color: var(--text-teal); }
+
+  /* ====== CATEGORY BUTTONS ====== */
+  .category-section { padding: 10px 12px 8px; background: var(--bg); flex-shrink: 0; }
+  .cat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin-bottom: 7px; }
+  .cat-btn {
+    background: var(--red); color: white; border: none; border-radius: 12px; padding: 10px 4px;
+    font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; line-height: 1.3;
+    transition: background 0.15s, transform 0.1s; font-family: inherit;
+  }
+  .cat-btn.income { background: var(--teal); }
+  .cat-btn:hover { filter: brightness(1.1); }
+  .cat-btn:active { transform: scale(0.95); }
+  .cat-btn span { display: block; font-size: 10px; opacity: 0.9; }
+
+  /* ====== NAV BUTTONS ====== */
+  .nav-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 10px; flex-shrink: 0; }
+  .nav-big-btn {
+    background: white; color: var(--text-main); border: 1.5px solid #d0d8e8; border-radius: 12px;
+    padding: 13px; font-size: 16px; font-weight: 700; cursor: pointer; text-align: center;
+    transition: background 0.15s; font-family: inherit;
+  }
+  .nav-big-btn:hover { background: #f0f4fa; }
+
+  /* ====== BOTTOM TABS ====== */
+  .bottom-tabs {
+    background: var(--tab-bg); display: flex; justify-content: space-around;
+    padding: 10px 0 14px; flex-shrink: 0; border-top: 1px solid #1a2535;
+  }
+  .tab-btn {
+    color: #4a6080; font-size: 14px; font-weight: 600; background: none; border: none;
+    cursor: pointer; padding: 4px 20px; transition: color 0.15s; font-family: inherit;
+  }
+  .tab-btn.active { color: var(--teal); }
+  .tab-btn:hover { color: #7a9ab8; }
+
+  /* ====== MODAL OVERLAY ====== */
+  .modal-overlay {
+    display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.65);
+    z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open { display: flex; }
+
+  /* Light modal (記帳 style) */
+  .modal-box {
+    background: white; border-radius: 18px; width: calc(100% - 40px); max-width: 340px;
+    padding: 24px 20px 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    position: relative; animation: modalIn 0.2s ease;
+  }
+  /* Dark modal (現倉 style) */
+  .modal-box-dark {
+    background: var(--modal-bg); border-radius: 18px; width: calc(100% - 40px); max-width: 340px;
+    padding: 24px 20px 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    position: relative; animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.93) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; text-align: center; }
+  .modal-title-dark { font-size: 18px; font-weight: 700; color: white; margin-bottom: 16px; text-align: center; }
+
+  .modal-field { margin-bottom: 12px; }
+  .modal-field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+  .modal-field label.dark { color: #7a9ab8; }
+  .modal-field input, .modal-field textarea {
+    width: 100%; padding: 10px 12px; border: 1.5px solid #dde4f0; border-radius: 10px;
+    font-size: 15px; font-family: inherit; color: var(--text-main); outline: none;
+    transition: border-color 0.15s; background: #f8fafc;
+  }
+  .modal-field input.dark, .modal-field textarea.dark {
+    background: var(--input-bg); border: none; border-radius: 10px; color: white;
+    font-size: 15px; padding: 14px 16px;
+  }
+  .modal-field input.dark::placeholder { color: #4a6080; }
+  .modal-field input:focus, .modal-field textarea:focus { border-color: var(--teal); background: white; }
+  .modal-field input.dark:focus { outline: 1.5px solid var(--teal); }
+  .modal-field input[type="number"] { -moz-appearance: textfield; }
+  .modal-field input[type="number"]::-webkit-inner-spin-button,
+  .modal-field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .modal-actions button {
+    flex: 1; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: 700;
+    border: none; cursor: pointer; font-family: inherit; transition: filter 0.15s;
+  }
+  .modal-actions button:hover { filter: brightness(1.08); }
+  .btn-cancel { background: #f0f3f8; color: var(--text-muted); }
+  .btn-confirm { background: var(--teal); color: white; }
+  .btn-confirm.expense { background: var(--red); }
+  .btn-delete { background: #fff0f0; color: var(--red); border: 1.5px solid #ffd0d0 !important; }
+  .btn-green { background: #27ae60; color: white; }
+  .btn-orange { background: #e87820; color: white; }
+  .modal-divider { height: 1px; background: #2a3a4a; margin: 16px 0; }
+
+  /* Dark modal type tabs */
+  .type-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+  .type-tab {
+    padding: 10px 18px; border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; border: none; font-family: inherit; background: var(--input-bg); color: #7a9ab8;
+    transition: background 0.15s, color 0.15s;
+  }
+  .type-tab.active { background: var(--teal); color: white; }
+
+  /* ====== YEAR SCREEN ====== */
+  .summary-card {
+    background: white; border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer;
+  }
+  .summary-circle {
+    width: 70px; height: 70px; background: var(--teal); border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.15s;
+  }
+  .summary-circle:hover { transform: scale(1.05); }
+  .summary-circle svg { width: 50px; height: 50px; }
+  .summary-numbers { flex: 1; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 15px; }
+  .summary-row .label { color: var(--text-main); font-weight: 600; }
+  .summary-row .amount-red { color: var(--red); font-weight: 700; font-size: 16px; }
+  .summary-row .amount-teal { color: var(--teal); font-weight: 700; font-size: 16px; }
+
+  .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 12px; border-radius: 10px; overflow: hidden; }
+  .toggle-btn { padding: 13px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
+  .toggle-btn.expense { background: var(--red); color: white; }
+  .toggle-btn.income-btn { background: var(--teal); color: white; }
+  .toggle-btn.inactive { opacity: 0.35; }
+
+  .chart-container { background: white; border-radius: 14px; padding: 14px 10px 10px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  canvas#yearChart { width: 100%; }
+
+  .month-list { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 12px; }
+  .month-item {
+    display: flex; justify-content: space-between; align-items: center; padding: 13px 16px;
+    border-bottom: 1px solid #f0f4fa; cursor: pointer; transition: background 0.1s;
+  }
+  .month-item:last-child { border-bottom: none; }
+  .month-item:hover { background: #f8fafc; }
+  .month-name { color: var(--text-main); font-size: 15px; font-weight: 600; }
+  .month-amounts { font-size: 13px; display: flex; gap: 12px; }
+  .month-exp { color: var(--red); font-weight: 700; }
+  .month-inc { color: var(--teal); font-weight: 700; }
+
+  .back-big-btn {
+    background: var(--teal); color: white; border: none; border-radius: 14px; padding: 16px;
+    font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
+    margin-top: 4px; transition: background 0.15s; flex-shrink: 0;
+  }
+  .back-big-btn:hover { background: var(--teal-dark); }
+  .red-big-btn {
+    background: var(--red); color: white; border: none; border-radius: 14px; padding: 16px;
+    font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
+    margin-top: 8px; transition: background 0.15s; flex-shrink: 0;
+  }
+  .red-big-btn:hover { background: var(--red-dark); }
+
+  /* ====== PIE CHART SCREEN ====== */
+  .pie-container { display: flex; flex-direction: column; align-items: center; padding: 20px 16px; }
+  canvas#pieChart { width: 220px !important; height: 220px !important; margin-bottom: 20px; }
+  .pie-legend { width: 100%; }
+  .legend-item {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 16px;
+    border-bottom: 1px solid #1e2d3d; cursor: pointer; transition: background 0.1s; border-radius: 8px;
+  }
+  .legend-item:hover { background: #162030; }
+  .legend-left { display: flex; align-items: center; gap: 10px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .legend-name { color: white; font-size: 15px; font-weight: 600; }
+  .legend-right { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+  /* ====== 現倉 SCREEN ====== */
+  .cangku-header {
+    background: var(--teal); border-radius: 14px; margin: 12px 12px 0; padding: 16px 18px;
+    flex-shrink: 0;
+  }
+  .cangku-header-title { font-size: 14px; color: rgba(255,255,255,0.8); font-weight: 600; margin-bottom: 4px; text-align: center; }
+  .cangku-header-total { font-size: 28px; font-weight: 800; color: white; text-align: center; margin-bottom: 12px; }
+  .cangku-header-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cangku-stat { }
+  .cangku-stat-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; margin-bottom: 2px; }
+  .cangku-stat-val { font-size: 15px; font-weight: 700; color: white; }
+
+  .cangku-table-header {
+    display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr; gap: 4px;
+    padding: 10px 14px; background: #1e2d3d; margin: 12px 12px 0; border-radius: 10px 10px 0 0;
+    flex-shrink: 0;
+  }
+  .cangku-table-header span { font-size: 12px; color: #7a9ab8; font-weight: 700; text-align: center; }
+  .cangku-table-header span:first-child { text-align: left; }
+
+  .cangku-list { flex: 1; overflow-y: auto; padding: 0 12px; -webkit-overflow-scrolling: touch; }
+  .cangku-list::-webkit-scrollbar { width: 3px; }
+  .cangku-list::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
+
+  .asset-row {
+    background: white; border-radius: 10px; margin-bottom: 8px; padding: 12px 14px;
+    display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr; gap: 4px; align-items: center;
+    cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .asset-row:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+  .asset-row:active { transform: scale(0.98); }
+  .asset-code { font-size: 14px; font-weight: 700; color: var(--text-main); }
+  .asset-name { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .asset-price-cur { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .asset-price { font-size: 16px; font-weight: 700; color: var(--text-main); text-align: center; }
+  .asset-shares { font-size: 14px; font-weight: 600; color: var(--text-main); text-align: center; }
+  .asset-cost { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 2px; }
+  .asset-pnl { font-size: 16px; font-weight: 800; text-align: right; }
+  .pnl-pos { color: var(--teal); }
+  .pnl-neg { color: var(--red); }
+
+  .add-big-btn {
+    background: var(--teal); color: white; border: none; border-radius: 0; padding: 16px;
+    font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
+    flex-shrink: 0; transition: background 0.15s;
+  }
+  .add-big-btn:hover { background: var(--teal-dark); }
+
+  /* ====== 資產詳情 SCREEN ====== */
+  .asset-detail-header {
+    background: white; padding: 14px 16px; flex-shrink: 0;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 4px; align-items: center;
+  }
+  .asset-detail-code { font-size: 16px; font-weight: 700; color: var(--text-main); }
+  .asset-detail-name { font-size: 12px; color: var(--text-muted); }
+  .asset-detail-curprice { font-size: 12px; color: var(--text-muted); }
+
+  .txn-table-header {
+    display: grid; grid-template-columns: 1.8fr 1fr 1.5fr 1fr 1fr; gap: 4px;
+    padding: 10px 12px; background: #1e2d3d; flex-shrink: 0;
+  }
+  .txn-table-header span { font-size: 11px; color: #7a9ab8; font-weight: 700; text-align: center; }
+  .txn-table-header span:first-child { text-align: left; }
+
+  .txn-list { flex: 1; overflow-y: auto; padding: 0 12px; -webkit-overflow-scrolling: touch; }
+  .txn-list::-webkit-scrollbar { width: 3px; }
+  .txn-list::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
+
+  .txn-row {
+    background: #162030; border-radius: 10px; margin-bottom: 6px; padding: 12px;
+    display: grid; grid-template-columns: 1.8fr 1fr 1.5fr 1fr 1fr; gap: 4px; align-items: center;
+    cursor: pointer; transition: background 0.1s;
+  }
+  .txn-row:hover { background: #1e2d3d; }
+  .txn-date { font-size: 12px; color: #9ab0c8; font-weight: 600; }
+  .txn-val { font-size: 13px; font-weight: 600; color: white; text-align: center; }
+  .txn-val.neg { color: var(--red); }
+
+  /* ====== 設置 SCREEN ====== */
+  .settings-header {
+    background: var(--teal); border-radius: 14px; margin: 12px 12px 0; padding: 16px 18px;
+    flex-shrink: 0;
+  }
+  .settings-pie-wrap { display: flex; justify-content: center; padding: 10px 0 0; }
+  canvas#settingsPie { }
+  .settings-legend { padding: 16px; }
+  .settings-legend-item {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 0;
+    border-bottom: 1px solid #1e2d3d;
+  }
+  .settings-legend-item:last-child { border-bottom: none; }
+  .settings-legend-left { display: flex; align-items: center; gap: 10px; }
+  .settings-legend-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+  .settings-legend-name { color: white; font-size: 15px; font-weight: 600; }
+  .settings-legend-val { color: #9ab0c8; font-size: 14px; }
+  .settings-divider { height: 1px; background: #1e2d3d; margin: 6px 16px; }
+  .settings-stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; font-size: 14px;
+  }
+  .settings-stat-label { color: #9ab0c8; }
+  .settings-stat-red { color: var(--red); font-weight: 700; font-size: 15px; }
+  .settings-stat-teal { color: var(--teal); font-weight: 700; font-size: 15px; }
+
+  /* ====== Calendar ====== */
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 8px; }
+  .cal-header { text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 700; padding: 4px 0; }
+  .cal-day {
+    text-align: center; font-size: 13px; padding: 7px 2px; border-radius: 6px;
+    cursor: pointer; color: var(--text-main); transition: background 0.1s; font-weight: 500;
+  }
+  .cal-day:hover { background: #e8f4f0; }
+  .cal-day.selected { background: var(--teal); color: white; font-weight: 700; }
+  .cal-day.other-month { color: #ccc; }
+  .cal-day.today { border: 1.5px solid var(--teal); }
+  .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .cal-nav button { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--teal); padding: 4px 8px; }
+  .cal-month-label { font-size: 14px; font-weight: 700; color: var(--text-main); }
+
+  /* month summary */
+  .month-summary-card { background: white; border-radius: 14px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .month-summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 15px; }
+  .month-summary-row:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+<div id="phone-frame">
+
+  <!-- ===== SCREEN: 記帳 ===== -->
+  <div class="screen active" id="screen-ledger">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="changeDay(-1)">＜</button>
+      <h1 id="date-display">2026.06.01</h1>
+      <button class="nav-btn" onclick="changeDay(1)">＞</button>
+    </div>
+    <div class="scroll-content" id="records-list"></div>
+    <div class="category-section">
+      <div class="cat-row" id="expense-btns"></div>
+      <div class="cat-row" id="income-btns"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-big-btn" onclick="goYear()">年份</button>
+      <button class="nav-big-btn" onclick="showMonthFromLedger()">月份</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn active">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 年份 ===== -->
+  <div class="screen" id="screen-year">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="changeYear(-1)">＜</button>
+      <h1 id="year-display">2026年</h1>
+      <button class="nav-btn" onclick="changeYear(1)">＞</button>
+    </div>
+    <div class="year-scroll" id="year-content"></div>
+    <div style="padding:0 12px 10px;flex-shrink:0;">
+      <button class="back-big-btn" onclick="goTab('screen-ledger')">返回記帳</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn active" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 月份 ===== -->
+  <div class="screen" id="screen-month">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="changeMonth(-1)">＜</button>
+      <h1 id="month-display">2026年06月</h1>
+      <button class="nav-btn" onclick="changeMonth(1)">＞</button>
+    </div>
+    <div class="year-scroll" id="month-content"></div>
+    <div style="padding:0 12px 10px;flex-shrink:0;">
+      <button class="back-big-btn" id="back-from-month" onclick="goYear()">返回年份統計</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn active" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 圓餅圖 ===== -->
+  <div class="screen" id="screen-pie">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="pieBack()">＜</button>
+      <h1 id="pie-title">2026年</h1>
+      <button class="nav-btn" style="opacity:0">＞</button>
+    </div>
+    <div class="year-scroll">
+      <div style="padding:8px 12px 0;">
+        <div class="toggle-row">
+          <button class="toggle-btn expense" id="pie-exp-btn" onclick="setPieMode('expense')">支出</button>
+          <button class="toggle-btn income-btn" id="pie-inc-btn" onclick="setPieMode('income')">收入</button>
+        </div>
+      </div>
+      <div class="pie-container">
+        <canvas id="pieChart" width="220" height="220"></canvas>
+        <div class="pie-legend" id="pie-legend"></div>
+      </div>
+    </div>
+    <div style="padding:0 12px 10px;flex-shrink:0;">
+      <button class="back-big-btn" id="pie-back-btn" onclick="pieBack()">返回年份統計</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn active" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 現倉 ===== -->
+  <div class="screen" id="screen-cangku">
+    <div class="cangku-header" id="cangku-header"></div>
+    <div class="cangku-table-header">
+      <span>代碼 ▲</span><span>現價</span><span>股數／成本</span><span>帳目價值</span>
+    </div>
+    <div class="cangku-list" id="cangku-list"></div>
+    <button class="add-big-btn" onclick="openAddAssetModal()">＋ 新增</button>
+    <div class="bottom-tabs">
+      <button class="tab-btn active">現倉</button>
+      <button class="tab-btn" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 資產詳情 ===== -->
+  <div class="screen" id="screen-asset-detail">
+    <div class="asset-detail-header" id="asset-detail-header"></div>
+    <div class="txn-table-header">
+      <span>日期</span><span>股數</span><span>投入金額</span><span>平均成本</span><span>持有均價</span>
+    </div>
+    <div class="txn-list" id="txn-list"></div>
+    <div style="padding:0 12px 10px;flex-shrink:0;">
+      <button class="back-big-btn" onclick="openAddTxnModal()">新增紀錄</button>
+      <button class="red-big-btn" onclick="deleteCurrentAsset()">刪除</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn active" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: 設置 ===== -->
+  <div class="screen" id="screen-settings">
+    <div class="settings-header" id="settings-header"></div>
+    <div class="year-scroll" id="settings-content"></div>
+    <div style="padding:0 12px 10px;flex-shrink:0;">
+      <button class="back-big-btn" onclick="openSettingsModal()">設置</button>
+    </div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn active">設置</button>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: 記帳 Add/Edit ===== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-title">支出 / 飲食</div>
+      <div class="modal-field">
+        <label>備註</label>
+        <input type="text" id="modal-note" placeholder="選填">
+      </div>
+      <div class="modal-field">
+        <label>金額</label>
+        <input type="number" id="modal-amount" placeholder="0" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div class="modal-field">
+        <label>日期</label>
+        <input type="text" id="modal-date-display" readonly placeholder="選擇日期" onclick="openCalendar('ledger')" style="cursor:pointer;">
+        <input type="hidden" id="modal-date-val">
+      </div>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Calendar ===== -->
+  <div class="modal-overlay" id="cal-overlay" style="z-index:200;">
+    <div class="modal-box" style="padding:18px;">
+      <div class="cal-nav">
+        <button onclick="calNavMonth(-1)">◀</button>
+        <span class="cal-month-label" id="cal-label"></span>
+        <button onclick="calNavMonth(1)">▶</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="modal-actions" style="margin-top:12px;">
+        <button class="btn-cancel" style="flex:1;padding:11px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="closeCalendar()">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: 設置 ===== -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-box-dark">
+      <div class="modal-title-dark">設置</div>
+      <div class="modal-field">
+        <label class="dark">台幣現金總額</label>
+        <input type="number" class="dark" id="settings-twd" inputmode="numeric">
+      </div>
+      <div class="modal-field">
+        <label class="dark">美金現金總額</label>
+        <input type="number" class="dark" id="settings-usd" inputmode="decimal">
+      </div>
+      <button class="btn-confirm" style="width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:4px;" onclick="saveSettings()">確認</button>
+      <div class="modal-divider"></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-green" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="backupData()">備份</button>
+        <button class="btn-orange" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="restoreData()">還原</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: 新增資產 ===== -->
+  <div class="modal-overlay" id="add-asset-modal">
+    <div class="modal-box-dark" style="max-height:85%;overflow-y:auto;">
+      <div class="modal-title-dark">新增資產</div>
+      <div class="type-tabs" id="asset-type-tabs">
+        <button class="type-tab active" onclick="setAssetType('tw')">台股</button>
+        <button class="type-tab" onclick="setAssetType('us')">美股</button>
+        <button class="type-tab" onclick="setAssetType('crypto')">虛擬幣</button>
+      </div>
+      <div class="modal-field">
+        <label class="dark">代碼</label>
+        <input type="text" class="dark" id="add-asset-code" placeholder="輸入台股代碼或美股代碼">
+      </div>
+      <div class="modal-field">
+        <label class="dark">股數（可選，可負值）</label>
+        <input type="number" class="dark" id="add-asset-shares" placeholder="輸入股數（可負值）" inputmode="decimal">
+      </div>
+      <div class="modal-field">
+        <label class="dark">投入金額（可選，可負值）</label>
+        <input type="number" class="dark" id="add-asset-invested" placeholder="輸入投入金額（可負值）" inputmode="decimal">
+      </div>
+      <div class="modal-field">
+        <label class="dark">平均成本</label>
+        <input type="number" class="dark" id="add-asset-cost" value="0.00" inputmode="decimal">
+      </div>
+      <div class="modal-field">
+        <label class="dark">日期</label>
+        <input type="text" class="dark" id="add-asset-date" readonly onclick="openCalendar('asset')" style="cursor:pointer;" placeholder="選擇日期">
+        <input type="hidden" id="add-asset-date-val">
+      </div>
+      <button class="btn-confirm" style="width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:8px;" onclick="saveNewAsset()">新增</button>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: 新增交易紀錄 ===== -->
+  <div class="modal-overlay" id="add-txn-modal">
+    <div class="modal-box-dark">
+      <div class="modal-title-dark" id="add-txn-title">新增紀錄</div>
+      <div class="modal-field">
+        <label class="dark">股數（可負值）</label>
+        <input type="number" class="dark" id="add-txn-shares" placeholder="可負值" inputmode="decimal">
+      </div>
+      <div class="modal-field">
+        <label class="dark">投入金額（可負值）</label>
+        <input type="number" class="dark" id="add-txn-invested" placeholder="可負值" inputmode="decimal">
+      </div>
+      <div class="modal-field">
+        <label class="dark">日期</label>
+        <input type="text" class="dark" id="add-txn-date" readonly onclick="openCalendar('txn')" style="cursor:pointer;" placeholder="選擇日期">
+        <input type="hidden" id="add-txn-date-val">
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button class="btn-cancel" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="closeModal('add-txn-modal')">取消</button>
+        <button class="btn-confirm" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="saveTxn()">新增</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end phone-frame -->
+
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const WEEKDAYS = ['日','一','二','三','四','五','六'];
+const EXPENSE_CATS = [
+  {id:'food',label:'支出',sub:'飲食'},{id:'bill',label:'支出',sub:'繳費'},
+  {id:'shop',label:'支出',sub:'購物'},{id:'fun',label:'支出',sub:'娛樂'},
+  {id:'med',label:'支出',sub:'醫療'}
+];
+const INCOME_CATS = [
+  {id:'salary',label:'收入',sub:'薪資'},{id:'dividend',label:'收入',sub:'配息'},
+  {id:'profit',label:'收入',sub:'獲利'},{id:'freelance',label:'收入',sub:'接案'},
+  {id:'bonus',label:'收入',sub:'獎金'}
+];
+const PIE_COLORS = {
+  food:'#e84040',bill:'#2ec4a9',shop:'#4a9ede',fun:'#f0a06a',med:'#a06af0',
+  salary:'#2ec4a9',dividend:'#4a9ede',profit:'#e8c440',freelance:'#60c860',bonus:'#f0a06a'
+};
+// Asset colors for settings pie
+const ASSET_COLORS = {'tw_cash':'#2ec4a9','usd_cash':'#e84040','tw_stock':'#4a9ede','us_stock':'#f0a06a'};
+const USD_TO_TWD = 31.38; // exchange rate
+
+// ============================================================
+// STATE
+// ============================================================
+let records = JSON.parse(localStorage.getItem('records')||'[]');
+let assets = JSON.parse(localStorage.getItem('assets')||'[]'); // [{id,code,name,type,txns:[{date,shares,invested,avgCost,holdAvg}],currentPrice}]
+let settings = JSON.parse(localStorage.getItem('settings')||'{"twdCash":16000,"usdCash":1644.499}');
+let currentDate = new Date(2026,5,1);
+let currentYear = 2026, currentMonth = 5;
+let editingId = null, modalMode = null, modalCategory = null;
+let calTarget = 'ledger'; // 'ledger'|'asset'|'txn'
+let calYear, calMonth;
+let pieFromScreen = 'year', pieViewYear = 2026, pieViewMonth = 5, pieMode = 'expense';
+let currentAssetId = null;
+let newAssetType = 'tw';
+
+// ============================================================
+// SEED DATA
+// ============================================================
+function genId(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
+function saveRecords(){localStorage.setItem('records',JSON.stringify(records));}
+function saveAssets(){localStorage.setItem('assets',JSON.stringify(assets));}
+function saveSettingsData(){localStorage.setItem('settings',JSON.stringify(settings));}
+
+if(records.length===0){
+  records=[
+    {id:genId(),date:'2026-01-05',cat:'shop',note:'',amount:57800,type:'expense'},
+    {id:genId(),date:'2026-01-10',cat:'bill',note:'',amount:62000,type:'expense'},
+    {id:genId(),date:'2026-01-15',cat:'food',note:'',amount:3200,type:'expense'},
+    {id:genId(),date:'2026-01-20',cat:'fun',note:'',amount:2483,type:'expense'},
+    {id:genId(),date:'2026-01-25',cat:'bill',note:'',amount:46000,type:'expense'},
+    {id:genId(),date:'2026-01-28',cat:'salary',note:'',amount:85000,type:'income'},
+    {id:genId(),date:'2026-01-28',cat:'bonus',note:'',amount:27502,type:'income'},
+    {id:genId(),date:'2026-02-05',cat:'food',note:'',amount:4800,type:'expense'},
+    {id:genId(),date:'2026-02-12',cat:'bill',note:'',amount:6754,type:'expense'},
+    {id:genId(),date:'2026-02-20',cat:'salary',note:'',amount:85000,type:'income'},
+    {id:genId(),date:'2026-02-25',cat:'dividend',note:'',amount:106919,type:'income'},
+    {id:genId(),date:'2026-03-03',cat:'shop',note:'',amount:86238,type:'expense'},
+    {id:genId(),date:'2026-03-10',cat:'bill',note:'',amount:12000,type:'expense'},
+    {id:genId(),date:'2026-03-15',cat:'food',note:'',amount:4558,type:'expense'},
+    {id:genId(),date:'2026-03-20',cat:'fun',note:'',amount:3900,type:'expense'},
+    {id:genId(),date:'2026-03-25',cat:'salary',note:'',amount:40300,type:'income'},
+    {id:genId(),date:'2026-04-05',cat:'bill',note:'',amount:28000,type:'expense'},
+    {id:genId(),date:'2026-04-12',cat:'food',note:'',amount:5210,type:'expense'},
+    {id:genId(),date:'2026-04-18',cat:'fun',note:'',amount:1833,type:'expense'},
+    {id:genId(),date:'2026-04-25',cat:'salary',note:'',amount:85000,type:'income'},
+    {id:genId(),date:'2026-05-03',cat:'shop',note:'',amount:18533,type:'expense'},
+    {id:genId(),date:'2026-05-08',cat:'bill',note:'',amount:65862,type:'expense'},
+    {id:genId(),date:'2026-05-12',cat:'food',note:'',amount:7191,type:'expense'},
+    {id:genId(),date:'2026-05-20',cat:'salary',note:'',amount:85000,type:'income'},
+    {id:genId(),date:'2026-05-25',cat:'bonus',note:'',amount:2273078,type:'income'},
+    {id:genId(),date:'2026-06-01',cat:'bill',note:'瓦斯',amount:112,type:'expense'},
+    {id:genId(),date:'2026-06-01',cat:'food',note:'無',amount:199,type:'expense'},
+    {id:genId(),date:'2026-06-01',cat:'bonus',note:'無',amount:3254,type:'income'},
+    {id:genId(),date:'2026-06-01',cat:'food',note:'無',amount:120,type:'expense'},
+  ];
+  saveRecords();
+}
+
+if(assets.length===0){
+  assets=[
+    {id:genId(),code:'0056',name:'元大高股息',type:'tw',currentPrice:51.9,
+     txns:[
+       {id:genId(),date:'2026/2/12',shares:46000,invested:1589000,avgCost:34.54,holdAvg:34.54},
+       {id:genId(),date:'2026-02-25',shares:-1000,invested:-40000,avgCost:40.00,holdAvg:34.42},
+       {id:genId(),date:'2026-05-14',shares:0,invested:-44990,avgCost:0.00,holdAvg:33.42},
+       {id:genId(),date:'2026-05-18',shares:-1000,invested:-43994,avgCost:43.99,holdAvg:33.18},
+       {id:genId(),date:'2026-06-01',shares:7000,invested:361364,avgCost:51.62,holdAvg:35.71},
+     ]},
+    {id:genId(),code:'00679B',name:'元大美債20年',type:'tw',currentPrice:26.3,
+     txns:[{id:genId(),date:'2026-01-10',shares:9000,invested:262260,avgCost:29.14,holdAvg:29.14}]},
+    {id:genId(),code:'00713',name:'00713',type:'tw',currentPrice:58.0,
+     txns:[{id:genId(),date:'2026-01-15',shares:64000,invested:3402240,avgCost:53.16,holdAvg:53.16}]},
+    {id:genId(),code:'00878',name:'國泰永續高股息',type:'tw',currentPrice:32.0,
+     txns:[{id:genId(),date:'2026-02-01',shares:87000,invested:1389390,avgCost:15.97,holdAvg:15.97}]},
+    {id:genId(),code:'1227',name:'佳格',type:'tw',currentPrice:28.2,
+     txns:[{id:genId(),date:'2026-01-20',shares:53000,invested:2036790,avgCost:38.43,holdAvg:38.43}]},
+    {id:genId(),code:'1229',name:'聯華',type:'tw',currentPrice:40.4,
+     txns:[{id:genId(),date:'2026-03-01',shares:72686,invested:1676617,avgCost:23.07,holdAvg:23.07}]},
+    {id:genId(),code:'ETH',name:'ETH',type:'crypto',currentPrice:2800,
+     txns:[{id:genId(),date:'2026-01-05',shares:2.5,invested:70000,avgCost:28000,holdAvg:28000}]},
+    {id:genId(),code:'NVDA',name:'NVIDIA',type:'us',currentPrice:135,
+     txns:[{id:genId(),date:'2026-04-10',shares:100,invested:448860,avgCost:129.5,holdAvg:129.5}]},
+    {id:genId(),code:'XLK',name:'美股XLK',type:'us',currentPrice:220,
+     txns:[{id:genId(),date:'2026-03-15',shares:200,invested:194570,avgCost:194.57,holdAvg:194.57}]},
+  ];
+  saveAssets();
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function dateStr(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function parseDate(s){return new Date(s.replace(/\//g,'-')+'T00:00:00');}
+function formatDateDisplay(s){
+  const d=parseDate(s);
+  return `${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} - ${WEEKDAYS[d.getDay()]}`;
+}
+function fmtMoney(n){return '$'+Math.round(n).toLocaleString();}
+function fmtNum(n,dec=2){return Number(n).toFixed(dec);}
+function getCatInfo(id){return[...EXPENSE_CATS,...INCOME_CATS].find(c=>c.id===id)||{label:'?',sub:'?',id};}
+function getRecordsByDate(ds){return records.filter(r=>r.date===ds);}
+function getRecordsByMonth(y,m){return records.filter(r=>r.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));}
+function getRecordsByYear(y){return records.filter(r=>r.date.startsWith(String(y)));}
+function sumType(recs,type){return recs.filter(r=>r.type===type).reduce((a,r)=>a+r.amount,0);}
+
+// Asset calculations
+function getAssetShares(asset){
+  return asset.txns.reduce((a,t)=>a+(t.shares||0),0);
+}
+function getAssetInvested(asset){
+  return asset.txns.reduce((a,t)=>a+(t.invested||0),0);
+}
+function getAssetCurrentVal(asset){
+  const shares=getAssetShares(asset);
+  let price=asset.currentPrice||0;
+  if(asset.type==='us') price*=USD_TO_TWD;
+  return shares*price;
+}
+function getAssetPnlPct(asset){
+  const invested=getAssetInvested(asset);
+  if(!invested) return 0;
+  const cur=getAssetCurrentVal(asset);
+  return Math.round((cur-invested)/Math.abs(invested)*100);
+}
+function getLastHoldAvg(asset){
+  if(!asset.txns.length) return 0;
+  return asset.txns[asset.txns.length-1].holdAvg||0;
+}
+
+// Total asset value (TWD)
+function calcTotalAssets(){
+  const twdCash=settings.twdCash||0;
+  const usdCash=(settings.usdCash||0)*USD_TO_TWD;
+  const twStocks=assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetCurrentVal(a),0);
+  const usStocks=assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetCurrentVal(a),0);
+  return twdCash+usdCash+twStocks+usStocks;
+}
+function calcTwStockInvested(){
+  return assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetInvested(a),0);
+}
+function calcUsStockInvested(){
+  return assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetInvested(a),0);
+}
+
+// ============================================================
+// SCREEN MANAGEMENT
+// ============================================================
+function goTab(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='screen-ledger') renderLedger();
+  if(id==='screen-year') renderYear();
+  if(id==='screen-month') renderMonth();
+  if(id==='screen-cangku') renderCangku();
+  if(id==='screen-settings') renderSettings();
+}
+function goYear(){currentYear=currentDate.getFullYear();goTab('screen-year');}
+
+// ============================================================
+// LEDGER SCREEN
+// ============================================================
+function renderLedger(){
+  const ds=dateStr(currentDate);
+  const m=String(currentDate.getMonth()+1).padStart(2,'0');
+  const d=String(currentDate.getDate()).padStart(2,'0');
+  document.getElementById('date-display').textContent=`${currentDate.getFullYear()}.${m}.${d}`;
+  document.getElementById('expense-btns').innerHTML=EXPENSE_CATS.map(c=>
+    `<button class="cat-btn" onclick="openAddModal('${c.id}','expense')">${c.label}<span>${c.sub}</span></button>`
+  ).join('');
+  document.getElementById('income-btns').innerHTML=INCOME_CATS.map(c=>
+    `<button class="cat-btn income" onclick="openAddModal('${c.id}','income')">${c.label}<span>${c.sub}</span></button>`
+  ).join('');
+  const dayRecs=getRecordsByDate(ds);
+  const list=document.getElementById('records-list');
+  if(!dayRecs.length){
+    list.innerHTML=`<div style="text-align:center;color:#4a6080;margin-top:30px;font-size:14px;">今日尚無記錄</div>`;
+    return;
+  }
+  list.innerHTML=dayRecs.map(r=>{
+    const cat=getCatInfo(r.cat);
+    const inc=r.type==='income';
+    return `<div class="record-card" onclick="openEditModal('${r.id}')">
+      <div class="left ${inc?'income':''}">${cat.sub} / ${formatDateDisplay(r.date)}</div>
+      <div class="right">${r.note||'無'} / <span class="${inc?'income':''}">${r.amount}</span></div>
+    </div>`;
+  }).join('');
+}
+function changeDay(d){currentDate=new Date(currentDate.getFullYear(),currentDate.getMonth(),currentDate.getDate()+d);renderLedger();}
+function showMonthFromLedger(){
+  currentMonth=currentDate.getMonth(); currentYear=currentDate.getFullYear();
+  document.getElementById('back-from-month').textContent='返回記帳';
+  document.getElementById('back-from-month').onclick=()=>goTab('screen-ledger');
+  goTab('screen-month');
+}
+function openAddModal(catId,type){
+  editingId=null; modalMode='add'; modalCategory=catId;
+  const cat=getCatInfo(catId);
+  const t=document.getElementById('modal-title');
+  t.textContent=`${cat.label} / ${cat.sub}`;
+  t.style.color=type==='expense'?'#e84040':'#2ec4a9';
+  document.getElementById('modal-note').value='';
+  document.getElementById('modal-amount').value='';
+  document.getElementById('modal-date-display').value=formatDateDisplay(dateStr(currentDate));
+  document.getElementById('modal-date-val').value=dateStr(currentDate);
+  const isExp=type==='expense';
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn-cancel" onclick="closeModal('modal-overlay')">取消</button>
+    <button class="btn-confirm ${isExp?'expense':''}" onclick="saveRecord()">儲存</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('modal-amount').focus(),100);
+}
+function openEditModal(id){
+  const rec=records.find(r=>r.id===id);if(!rec)return;
+  editingId=id; modalMode='edit'; modalCategory=rec.cat;
+  const cat=getCatInfo(rec.cat);
+  const t=document.getElementById('modal-title');
+  t.textContent=`${cat.label} / ${cat.sub}`;
+  t.style.color=rec.type==='expense'?'#e84040':'#2ec4a9';
+  document.getElementById('modal-note').value=rec.note||'';
+  document.getElementById('modal-amount').value=rec.amount;
+  document.getElementById('modal-date-display').value=formatDateDisplay(rec.date);
+  document.getElementById('modal-date-val').value=rec.date;
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn-delete" onclick="deleteRecord('${id}')">刪除</button>
+    <button class="btn-confirm" onclick="saveRecord()">更新</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveRecord(){
+  const amount=parseFloat(document.getElementById('modal-amount').value);
+  if(!amount||amount<=0){document.getElementById('modal-amount').style.borderColor='#e84040';return;}
+  document.getElementById('modal-amount').style.borderColor='';
+  const note=document.getElementById('modal-note').value.trim();
+  const dateVal=document.getElementById('modal-date-val').value;
+  if(modalMode==='add'){
+    const type=EXPENSE_CATS.find(c=>c.id===modalCategory)?'expense':'income';
+    records.push({id:genId(),date:dateVal,cat:modalCategory,note,amount,type});
+  } else {
+    const rec=records.find(r=>r.id===editingId);
+    if(rec){rec.note=note;rec.amount=amount;rec.date=dateVal;}
+  }
+  saveRecords(); closeModal('modal-overlay');
+  const active=document.querySelector('.screen.active');
+  if(active){if(active.id==='screen-ledger')renderLedger();if(active.id==='screen-month')renderMonth();if(active.id==='screen-year')renderYear();}
+}
+function deleteRecord(id){
+  if(!confirm('確定要刪除此筆記錄？'))return;
+  records=records.filter(r=>r.id!==id); saveRecords(); closeModal('modal-overlay');
+  const active=document.querySelector('.screen.active');
+  if(active){if(active.id==='screen-ledger')renderLedger();if(active.id==='screen-month')renderMonth();if(active.id==='screen-year')renderYear();}
+}
+
+// ============================================================
+// YEAR SCREEN
+// ============================================================
+function changeYear(d){currentYear+=d;renderYear();}
+function renderYear(){
+  document.getElementById('year-display').textContent=`${currentYear}年`;
+  const recs=getRecordsByYear(currentYear);
+  const totalExp=sumType(recs,'expense'),totalInc=sumType(recs,'income'),bal=totalInc-totalExp;
+  const content=document.getElementById('year-content');content.innerHTML='';
+  // Summary card
+  const sumCard=document.createElement('div');sumCard.className='summary-card';
+  sumCard.innerHTML=`<div class="summary-circle" onclick="openPieFromYear()">${renderMiniPie(recs)}</div>
+    <div class="summary-numbers">
+      <div class="summary-row"><span class="label">支出</span><span class="amount-red">${fmtMoney(totalExp)}</span></div>
+      <div class="summary-row"><span class="label">收入</span><span class="amount-teal">${fmtMoney(totalInc)}</span></div>
+      <div class="summary-row"><span class="label">結餘</span><span class="${bal>=0?'amount-teal':'amount-red'}">${fmtMoney(bal)}</span></div>
+    </div>`;
+  content.appendChild(sumCard);
+  // Chart
+  const chartCard=document.createElement('div');chartCard.className='chart-container';
+  chartCard.innerHTML='<canvas id="yearChart" height="120"></canvas>';
+  content.appendChild(chartCard);
+  const toggle=document.createElement('div');toggle.className='toggle-row';
+  toggle.innerHTML=`<button class="toggle-btn expense" id="y-exp-btn" onclick="setYearChartMode('expense')">支出</button>
+    <button class="toggle-btn income-btn inactive" id="y-inc-btn" onclick="setYearChartMode('income')">收入</button>`;
+  content.appendChild(toggle);
+  // Month list
+  const monthList=document.createElement('div');monthList.className='month-list';
+  for(let m=0;m<12;m++){
+    const mRecs=getRecordsByMonth(currentYear,m);
+    const mExp=sumType(mRecs,'expense'),mInc=sumType(mRecs,'income');
+    const item=document.createElement('div');item.className='month-item';
+    item.innerHTML=`<span class="month-name">${m+1}月</span>
+      <span class="month-amounts"><span class="month-exp">支 ${fmtMoney(mExp)}</span><span class="month-inc">入 ${fmtMoney(mInc)}</span></span>`;
+    item.onclick=()=>{
+      currentMonth=m; currentYear=currentYear;
+      document.getElementById('back-from-month').textContent='返回年份統計';
+      document.getElementById('back-from-month').onclick=()=>{goTab('screen-year');renderYear();};
+      goTab('screen-month');
+    };
+    monthList.appendChild(item);
+  }
+  content.appendChild(monthList);
+  setTimeout(()=>renderYearChart('expense'),50);
+}
+function setYearChartMode(mode){
+  const eb=document.getElementById('y-exp-btn'),ib=document.getElementById('y-inc-btn');
+  if(eb&&ib){eb.classList.toggle('inactive',mode!=='expense');ib.classList.toggle('inactive',mode!=='income');}
+  renderYearChart(mode);
+}
+function renderYearChart(mode){
+  const canvas=document.getElementById('yearChart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');const W=canvas.offsetWidth||350,H=120;
+  canvas.width=W;canvas.height=H;ctx.clearRect(0,0,W,H);
+  const data=[];let maxVal=0;
+  for(let m=0;m<12;m++){const v=sumType(getRecordsByMonth(currentYear,m),mode);data.push(v);if(v>maxVal)maxVal=v;}
+  if(!maxVal)maxVal=1;
+  const padL=48,padR=8,padT=8,padB=28,chartW=W-padL-padR,chartH=H-padT-padB;
+  const barW=(chartW/12)*0.55,gap=chartW/12;
+  const color=mode==='expense'?'#e84040':'#2ec4a9';
+  ctx.fillStyle='#4a6080';ctx.font='9px sans-serif';ctx.textAlign='right';
+  [0,0.25,0.5,0.75,1].forEach(t=>{
+    const y=padT+chartH*(1-t);const v=Math.round(maxVal*t);
+    ctx.fillText(v>=1000?Math.round(v/1000)+'k':v,padL-3,y+3);
+    ctx.strokeStyle='#1e2d3d';ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
+  });
+  data.forEach((v,i)=>{
+    const bH=(v/maxVal)*chartH,x=padL+gap*i+(gap-barW)/2,y=padT+chartH-bH,r=Math.min(4,barW/2);
+    ctx.fillStyle=color;ctx.beginPath();
+    ctx.moveTo(x+r,y);ctx.lineTo(x+barW-r,y);ctx.quadraticCurveTo(x+barW,y,x+barW,y+r);
+    ctx.lineTo(x+barW,y+bH);ctx.lineTo(x,y+bH);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();ctx.fill();
+    ctx.fillStyle='#4a6080';ctx.font='9px sans-serif';ctx.textAlign='center';
+    ctx.fillText((i+1)+'月',x+barW/2,H-padB+14);
+  });
+}
+function renderMiniPie(recs){
+  const total=sumType(recs,'expense');if(!total)return`<svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="rgba(255,255,255,0.3)"/></svg>`;
+  let a=-Math.PI/2,paths='';
+  EXPENSE_CATS.forEach(c=>{
+    const v=recs.filter(r=>r.type==='expense'&&r.cat===c.id).reduce((s,r)=>s+r.amount,0);
+    if(!v)return;const sw=(v/total)*Math.PI*2;
+    const x1=25+22*Math.cos(a),y1=25+22*Math.sin(a);a+=sw;const x2=25+22*Math.cos(a),y2=25+22*Math.sin(a);
+    paths+=`<path d="M25,25 L${x1},${y1} A22,22 0 ${sw>Math.PI?1:0},1 ${x2},${y2} Z" fill="${PIE_COLORS[c.id]||'#ccc'}"/>`;
+  });
+  return`<svg viewBox="0 0 50 50">${paths}</svg>`;
+}
+function openPieFromYear(){
+  pieFromScreen='year';pieViewYear=currentYear;
+  document.getElementById('pie-title').textContent=`${currentYear}年`;
+  document.getElementById('pie-back-btn').textContent='返回年份統計';
+  document.getElementById('pie-back-btn').onclick=()=>{goTab('screen-year');renderYear();};
+  pieMode='expense';showScreenOnly('screen-pie');renderPie();
+}
+function showScreenOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+// ============================================================
+// MONTH SCREEN
+// ============================================================
+function changeMonth(d){
+  currentMonth+=d;
+  if(currentMonth>11){currentMonth=0;currentYear++;}
+  if(currentMonth<0){currentMonth=11;currentYear--;}
+  renderMonth();
+}
+function renderMonth(){
+  document.getElementById('month-display').textContent=`${currentYear}年${String(currentMonth+1).padStart(2,'0')}月`;
+  const recs=getRecordsByMonth(currentYear,currentMonth);
+  const totalExp=sumType(recs,'expense'),totalInc=sumType(recs,'income'),bal=totalInc-totalExp;
+  const content=document.getElementById('month-content');content.innerHTML='';
+  const sumCard=document.createElement('div');sumCard.className='month-summary-card';
+  sumCard.innerHTML=`
+    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">支出</span><span style="font-size:16px;font-weight:700;color:#e84040">${fmtMoney(totalExp)}</span></div>
+    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">收入</span><span style="font-size:16px;font-weight:700;color:#2ec4a9">${fmtMoney(totalInc)}</span></div>
+    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">結餘</span><span style="font-size:16px;font-weight:700;color:${bal>=0?'#2ec4a9':'#e84040'}">${fmtMoney(bal)}</span></div>`;
+  content.appendChild(sumCard);
+  const pieBtn=document.createElement('button');pieBtn.className='nav-big-btn';
+  pieBtn.textContent='查看圓餅圖';pieBtn.style.cssText='width:100%;margin-bottom:12px;background:#162030;color:#2ec4a9;border-color:#2ec4a9;';
+  pieBtn.onclick=()=>{
+    pieFromScreen='month';pieViewYear=currentYear;pieViewMonth=currentMonth;
+    document.getElementById('pie-title').textContent=`${currentYear}年${currentMonth+1}月`;
+    document.getElementById('pie-back-btn').textContent='返回月份明細';
+    document.getElementById('pie-back-btn').onclick=()=>{goTab('screen-month');renderMonth();};
+    pieMode='expense';showScreenOnly('screen-pie');renderPie();
+  };
+  content.appendChild(pieBtn);
+  if(!recs.length){const e=document.createElement('div');e.style.cssText='text-align:center;color:#4a6080;margin-top:20px;font-size:14px;';e.textContent='本月尚無記錄';content.appendChild(e);return;}
+  const listDiv=document.createElement('div');listDiv.className='month-list';
+  [...recs].sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>{
+    const cat=getCatInfo(r.cat);const inc=r.type==='income';
+    const item=document.createElement('div');item.className='record-card';
+    item.style.cssText='border-radius:0;box-shadow:none;border-bottom:1px solid #f0f4fa;margin-bottom:0;';
+    item.innerHTML=`<div class="left ${inc?'income':''}">${cat.sub} / ${formatDateDisplay(r.date)}</div>
+      <div class="right">${r.note||'無'} / <span class="${inc?'income':''}">${r.amount}</span></div>`;
+    item.onclick=()=>openEditModal(r.id);
+    listDiv.appendChild(item);
+  });
+  content.appendChild(listDiv);
+}
+
+// ============================================================
+// PIE CHART
+// ============================================================
+function setPieMode(mode){
+  pieMode=mode;
+  document.getElementById('pie-exp-btn').classList.toggle('inactive',mode!=='expense');
+  document.getElementById('pie-inc-btn').classList.toggle('inactive',mode!=='income');
+  renderPie();
+}
+function pieBack(){
+  if(pieFromScreen==='month'){goTab('screen-month');renderMonth();}
+  else{goTab('screen-year');renderYear();}
+}
+function renderPie(){
+  const recs=pieFromScreen==='month'?getRecordsByMonth(pieViewYear,pieViewMonth):getRecordsByYear(pieViewYear);
+  const cats=pieMode==='expense'?EXPENSE_CATS:INCOME_CATS;
+  const filtered=recs.filter(r=>r.type===pieMode);
+  const total=filtered.reduce((a,r)=>a+r.amount,0);
+  const canvas=document.getElementById('pieChart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');const S=220;canvas.width=S;canvas.height=S;ctx.clearRect(0,0,S,S);
+  const cx=S/2,cy=S/2,R=95,innerR=45;
+  if(!total){ctx.strokeStyle='#2a3a4a';ctx.lineWidth=30;ctx.beginPath();ctx.arc(cx,cy,(R+innerR)/2,0,Math.PI*2);ctx.stroke();}
+  else{
+    let a=-Math.PI/2;
+    cats.forEach(c=>{
+      const v=filtered.filter(r=>r.cat===c.id).reduce((s,r)=>s+r.amount,0);if(!v)return;
+      const sw=(v/total)*Math.PI*2;
+      ctx.beginPath();
+      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+      ctx.arc(cx,cy,R,a,a+sw);ctx.arc(cx,cy,innerR,a+sw,a,true);ctx.closePath();
+      ctx.fillStyle=PIE_COLORS[c.id]||'#ccc';ctx.fill();
+      ctx.strokeStyle='#0d1b2a';ctx.lineWidth=2.5;ctx.beginPath();
+      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+      ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();
+      a+=sw;
+    });
+  }
+  document.getElementById('pie-legend').innerHTML=cats.map(c=>{
+    const v=filtered.filter(r=>r.cat===c.id).reduce((s,r)=>s+r.amount,0);
+    const pct=total?(v/total*100).toFixed(1):'0.0';
+    return`<div class="legend-item"><div class="legend-left"><div class="legend-dot" style="background:${PIE_COLORS[c.id]||'#ccc'}"></div><span class="legend-name">${c.sub}</span></div><span class="legend-right">${pct}% (${fmtMoney(v)}) ›</span></div>`;
+  }).join('');
+}
+
+// ============================================================
+// 現倉 SCREEN
+// ============================================================
+function renderCangku(){
+  const total=calcTotalAssets();
+  const twInvested=calcTwStockInvested();
+  const usInvested=calcUsStockInvested();
+  const twdCash=settings.twdCash||0;
+  const usdCash=settings.usdCash||0;
+
+  document.getElementById('cangku-header').innerHTML=`
+    <div class="cangku-header-title">帳目總值</div>
+    <div class="cangku-header-total">TWD ${Math.round(total).toLocaleString()}</div>
+    <div class="cangku-header-grid">
+      <div class="cangku-stat"><div class="cangku-stat-label">投入台幣</div><div class="cangku-stat-val">TWD ${Math.round(twInvested).toLocaleString()}</div></div>
+      <div class="cangku-stat" style="text-align:right"><div class="cangku-stat-label">可用台幣</div><div class="cangku-stat-val">TWD ${Math.round(twdCash).toLocaleString()}</div></div>
+      <div class="cangku-stat"><div class="cangku-stat-label">投入美金</div><div class="cangku-stat-val">USD ${Math.round(usInvested/USD_TO_TWD).toLocaleString()}</div></div>
+      <div class="cangku-stat" style="text-align:right"><div class="cangku-stat-label">可用美金</div><div class="cangku-stat-val">USD ${Math.round(usdCash).toLocaleString()}</div></div>
+    </div>`;
+
+  const list=document.getElementById('cangku-list');list.innerHTML='';
+  const sorted=[...assets].sort((a,b)=>a.code.localeCompare(b.code));
+  sorted.forEach(asset=>{
+    const shares=getAssetShares(asset);
+    const holdAvg=getLastHoldAvg(asset);
+    const curVal=getAssetCurrentVal(asset);
+    const pnl=getAssetPnlPct(asset);
+    const row=document.createElement('div');row.className='asset-row';
+    row.innerHTML=`
+      <div><div class="asset-code">${asset.code}</div><div class="asset-name">${asset.name}</div><div class="asset-price-cur">${fmtNum(asset.currentPrice)}</div></div>
+      <div class="asset-price">${fmtNum(asset.currentPrice)}</div>
+      <div><div class="asset-shares" style="text-align:center">${shares.toLocaleString()}</div><div class="asset-cost">${fmtNum(holdAvg)}</div></div>
+      <div class="asset-pnl ${pnl>=0?'pnl-pos':'pnl-neg'}">${pnl>=0?'+':''}${pnl}%</div>`;
+    row.onclick=()=>openAssetDetail(asset.id);
+    list.appendChild(row);
+  });
+}
+
+// ============================================================
+// 資產詳情 SCREEN
+// ============================================================
+function openAssetDetail(assetId){
+  currentAssetId=assetId;
+  const asset=assets.find(a=>a.id===assetId);if(!asset)return;
+  showScreenOnly('screen-asset-detail');
+  renderAssetDetail(asset);
+}
+function renderAssetDetail(asset){
+  const shares=getAssetShares(asset);
+  const holdAvg=getLastHoldAvg(asset);
+  const pnl=getAssetPnlPct(asset);
+  document.getElementById('asset-detail-header').innerHTML=`
+    <div>
+      <div class="asset-detail-code">${asset.code}</div>
+      <div class="asset-detail-name">${asset.name}</div>
+      <div class="asset-detail-curprice">${fmtNum(asset.currentPrice)}</div>
+    </div>
+    <div style="text-align:center;font-size:18px;font-weight:700;color:#1a2535">${shares.toLocaleString()}</div>
+    <div style="text-align:center;font-size:18px;font-weight:700;color:#1a2535">${fmtNum(holdAvg)}</div>
+    <div style="text-align:right;font-size:20px;font-weight:800;color:${pnl>=0?'#2ec4a9':'#e84040'}">${pnl>=0?'+':''}${pnl}%</div>`;
+  const txnList=document.getElementById('txn-list');txnList.innerHTML='';
+  [...asset.txns].sort((a,b)=>b.date.localeCompare(a.date)).forEach(t=>{
+    const row=document.createElement('div');row.className='txn-row';
+    row.innerHTML=`
+      <div class="txn-date">${t.date}</div>
+      <div class="txn-val ${t.shares<0?'neg':''}">${t.shares>0?'+':''}${t.shares}</div>
+      <div class="txn-val ${t.invested<0?'neg':''}">${t.invested>=0?'$'+Math.abs(t.invested).toLocaleString():'-$'+Math.abs(t.invested).toLocaleString()}</div>
+      <div class="txn-val">${fmtNum(t.avgCost)}</div>
+      <div class="txn-val">${fmtNum(t.holdAvg)}</div>`;
+    txnList.appendChild(row);
+  });
+}
+function deleteCurrentAsset(){
+  if(!confirm('確定刪除此資產？'))return;
+  assets=assets.filter(a=>a.id!==currentAssetId);saveAssets();goTab('screen-cangku');
+}
+function openAddTxnModal(){
+  document.getElementById('add-txn-shares').value='';
+  document.getElementById('add-txn-invested').value='';
+  const today=dateStr(new Date(2026,5,4));
+  document.getElementById('add-txn-date').value=today;
+  document.getElementById('add-txn-date-val').value=today;
+  document.getElementById('add-txn-modal').classList.add('open');
+}
+function saveTxn(){
+  const asset=assets.find(a=>a.id===currentAssetId);if(!asset)return;
+  const shares=parseFloat(document.getElementById('add-txn-shares').value)||0;
+  const invested=parseFloat(document.getElementById('add-txn-invested').value)||0;
+  const date=document.getElementById('add-txn-date-val').value;
+  const totalShares=getAssetShares(asset)+shares;
+  const totalInvested=getAssetInvested(asset)+invested;
+  const holdAvg=totalShares?totalInvested/totalShares:0;
+  const avgCost=shares?Math.abs(invested/shares):0;
+  asset.txns.push({id:genId(),date,shares,invested,avgCost:parseFloat(fmtNum(avgCost)),holdAvg:parseFloat(fmtNum(holdAvg))});
+  saveAssets();closeModal('add-txn-modal');renderAssetDetail(asset);
+}
+
+// ============================================================
+// 新增資產 MODAL
+// ============================================================
+function setAssetType(type){
+  newAssetType=type;
+  document.querySelectorAll('.type-tab').forEach(b=>b.classList.remove('active'));
+  const idx={tw:0,us:1,crypto:2}[type];
+  document.getElementById('asset-type-tabs').children[idx].classList.add('active');
+}
+function openAddAssetModal(){
+  document.getElementById('add-asset-code').value='';
+  document.getElementById('add-asset-shares').value='';
+  document.getElementById('add-asset-invested').value='';
+  document.getElementById('add-asset-cost').value='0.00';
+  const today=dateStr(new Date(2026,5,4));
+  document.getElementById('add-asset-date').value='2026年6月4日';
+  document.getElementById('add-asset-date-val').value=today;
+  newAssetType='tw';
+  document.querySelectorAll('.type-tab').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.getElementById('add-asset-modal').classList.add('open');
+}
+function saveNewAsset(){
+  const code=document.getElementById('add-asset-code').value.trim().toUpperCase();
+  if(!code)return;
+  const shares=parseFloat(document.getElementById('add-asset-shares').value)||0;
+  const invested=parseFloat(document.getElementById('add-asset-invested').value)||0;
+  const cost=parseFloat(document.getElementById('add-asset-cost').value)||0;
+  const date=document.getElementById('add-asset-date-val').value;
+  const holdAvg=shares?invested/shares:cost;
+  const asset={
+    id:genId(),code,name:code,type:newAssetType,currentPrice:cost||0,
+    txns:[{id:genId(),date,shares,invested,avgCost:cost,holdAvg:parseFloat(fmtNum(holdAvg))}]
+  };
+  assets.push(asset);saveAssets();closeModal('add-asset-modal');renderCangku();
+}
+
+// ============================================================
+// 設置 SCREEN
+// ============================================================
+function renderSettings(){
+  const total=calcTotalAssets();
+  const twdCash=settings.twdCash||0;
+  const usdCash=(settings.usdCash||0)*USD_TO_TWD;
+  const twStocks=assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetCurrentVal(a),0);
+  const usAll=assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetCurrentVal(a),0);
+
+  document.getElementById('settings-header').innerHTML=`
+    <div class="cangku-header-title" style="font-size:13px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:4px;">資產現值</div>
+    <div class="cangku-header-total" style="font-size:26px;">$${Math.round(total).toLocaleString()}</div>`;
+
+  // Render settings pie
+  const content=document.getElementById('settings-content');content.innerHTML='';
+  const pieWrap=document.createElement('div');pieWrap.className='settings-pie-wrap';
+  pieWrap.innerHTML='<canvas id="settingsPie" width="200" height="200"></canvas>';
+  content.appendChild(pieWrap);
+
+  // Legend
+  const legend=document.createElement('div');legend.className='settings-legend';
+  const cats=[
+    {label:'台幣現金',val:twdCash,color:'#2ec4a9'},
+    {label:'美金現金',val:usdCash,color:'#e84040'},
+    {label:'台股投入',val:twStocks,color:'#4a9ede'},
+    {label:'美股投入',val:usAll,color:'#f0a06a'},
+  ];
+  cats.forEach(c=>{
+    const pct=total?(c.val/total*100).toFixed(1):'0.0';
+    const item=document.createElement('div');item.className='settings-legend-item';
+    item.innerHTML=`<div class="settings-legend-left"><div class="settings-legend-dot" style="background:${c.color}"></div><span class="settings-legend-name">${c.label}</span></div>
+      <span class="settings-legend-val">${pct}% ($${Math.round(c.val).toLocaleString()})</span>`;
+    legend.appendChild(item);
+  });
+  content.appendChild(legend);
+
+  // Divider
+  const div=document.createElement('div');div.className='settings-divider';content.appendChild(div);
+
+  // Month stats from records
+  const now=new Date(2026,5,4);
+  const mRecs=getRecordsByMonth(now.getFullYear(),now.getMonth());
+  const mExp=sumType(mRecs,'expense'),mInc=sumType(mRecs,'income');
+  const stats=document.createElement('div');
+  stats.innerHTML=`
+    <div class="settings-stat-row"><span class="settings-stat-label">${now.getMonth()+1}月至今的支出總額</span><span class="settings-stat-red">$${mExp.toLocaleString()}</span></div>
+    <div class="settings-stat-row"><span class="settings-stat-label">${now.getMonth()+1}月至今的收入總額</span><span class="settings-stat-teal">$${mInc.toLocaleString()}</span></div>`;
+  content.appendChild(stats);
+
+  setTimeout(()=>{
+    const canvas=document.getElementById('settingsPie');if(!canvas)return;
+    const ctx=canvas.getContext('2d');const S=200;canvas.width=S;canvas.height=S;
+    ctx.clearRect(0,0,S,S);
+    const cx=S/2,cy=S/2,R=90;
+    let a=-Math.PI/2;
+    cats.forEach(c=>{
+      if(!c.val)return;
+      const sw=(c.val/total)*Math.PI*2;
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a,a+sw);ctx.closePath();
+      ctx.fillStyle=c.color;ctx.fill();
+      ctx.strokeStyle='#0d1b2a';ctx.lineWidth=2;ctx.beginPath();
+      ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();
+      a+=sw;
+    });
+  },50);
+}
+function openSettingsModal(){
+  document.getElementById('settings-twd').value=settings.twdCash||0;
+  document.getElementById('settings-usd').value=settings.usdCash||0;
+  document.getElementById('settings-modal').classList.add('open');
+}
+function saveSettings(){
+  settings.twdCash=parseFloat(document.getElementById('settings-twd').value)||0;
+  settings.usdCash=parseFloat(document.getElementById('settings-usd').value)||0;
+  saveSettingsData();closeModal('settings-modal');renderSettings();
+}
+function backupData(){
+  const data=JSON.stringify({records,assets,settings});
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='backup.json';a.click();
+  URL.revokeObjectURL(url);
+}
+function restoreData(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=e=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(d.records)records=d.records;
+        if(d.assets)assets=d.assets;
+        if(d.settings)settings=d.settings;
+        saveRecords();saveAssets();saveSettingsData();
+        closeModal('settings-modal');renderSettings();
+        alert('還原成功！');
+      }catch{alert('檔案格式錯誤');}
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ============================================================
+// MODAL MANAGEMENT
+// ============================================================
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ============================================================
+// CALENDAR
+// ============================================================
+let calCallbackTarget='ledger';
+function openCalendar(target){
+  calCallbackTarget=target;
+  let val;
+  if(target==='ledger') val=document.getElementById('modal-date-val').value;
+  else if(target==='asset') val=document.getElementById('add-asset-date-val').value;
+  else if(target==='txn') val=document.getElementById('add-txn-date-val').value;
+  if(val){const d=parseDate(val);calYear=d.getFullYear();calMonth=d.getMonth();}
+  else{calYear=2026;calMonth=5;}
+  renderCalGrid();
+  document.getElementById('cal-overlay').classList.add('open');
+}
+function closeCalendar(){document.getElementById('cal-overlay').classList.remove('open');}
+function calNavMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalGrid();}
+function renderCalGrid(){
+  document.getElementById('cal-label').textContent=`${calYear}年 ${calMonth+1}月`;
+  let sel='';
+  if(calCallbackTarget==='ledger') sel=document.getElementById('modal-date-val').value;
+  else if(calCallbackTarget==='asset') sel=document.getElementById('add-asset-date-val').value;
+  else if(calCallbackTarget==='txn') sel=document.getElementById('add-txn-date-val').value;
+  const today=dateStr(new Date(2026,5,4));
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML=['日','一','二','三','四','五','六'].map(d=>`<div class="cal-header">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const prev=new Date(calYear,calMonth,0).getDate();
+  let cells='';
+  for(let i=0;i<first;i++)cells+=`<div class="cal-day other-month">${prev-first+1+i}</div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls=['cal-day',ds===sel?'selected':'',ds===today?'today':''].filter(Boolean).join(' ');
+    cells+=`<div class="${cls}" onclick="selectCalDay('${ds}')">${d}</div>`;
+  }
+  grid.innerHTML+=cells;
+}
+function selectCalDay(ds){
+  const d=parseDate(ds);
+  const label=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  if(calCallbackTarget==='ledger'){
+    document.getElementById('modal-date-val').value=ds;
+    document.getElementById('modal-date-display').value=formatDateDisplay(ds);
+  } else if(calCallbackTarget==='asset'){
+    document.getElementById('add-asset-date-val').value=ds;
+    document.getElementById('add-asset-date').value=label;
+  } else if(calCallbackTarget==='txn'){
+    document.getElementById('add-txn-date-val').value=ds;
+    document.getElementById('add-txn-date').value=ds;
+  }
+  closeCalendar();
+}
+
+// ============================================================
+// KEYBOARD / CLOSE
+// ============================================================
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('cal-overlay').classList.contains('open')){closeCalendar();return;}
+    ['modal-overlay','settings-modal','add-asset-modal','add-txn-modal'].forEach(id=>{
+      if(document.getElementById(id).classList.contains('open')) closeModal(id);
+    });
+  }
+});
+['modal-overlay','settings-modal','add-asset-modal','add-txn-modal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+document.getElementById('cal-overlay').addEventListener('click',function(e){if(e.target===this)closeCalendar();});
+
+// ============================================================
+// INIT
+// ============================================================
+renderLedger();
+</script>
+</body>
+</html>
