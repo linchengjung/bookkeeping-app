@@ -73,15 +73,15 @@
   /* ====== TOP BAR ====== */
   .top-bar {
     background: var(--teal);
-    padding: 16px 20px 14px;
+    padding: 10px 20px 9px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
   }
-  .top-bar h1 { color: white; font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+  .top-bar h1 { color: white; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
   .top-bar .nav-btn {
-    color: white; font-size: 22px; font-weight: 700;
+    color: white; font-size: 20px; font-weight: 700;
     background: none; border: none; cursor: pointer; padding: 4px 10px; opacity: 0.9;
   }
   .top-bar .nav-btn:hover { opacity: 1; }
@@ -90,30 +90,34 @@
   .scroll-content { flex: 1; overflow-y: auto; padding: 14px 12px 10px; -webkit-overflow-scrolling: touch; }
   .scroll-content::-webkit-scrollbar { width: 3px; }
   .scroll-content::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
-  .year-scroll { flex: 1; overflow-y: auto; padding: 14px 12px 10px; -webkit-overflow-scrolling: touch; }
+  .year-scroll { flex: 1; overflow-y: auto; padding: 8px 12px 6px; -webkit-overflow-scrolling: touch; }
   .year-scroll::-webkit-scrollbar { width: 3px; }
   .year-scroll::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
+  /* No-scroll variant for year screen — tries to fit everything */
+  .year-noscroll { flex: 1; overflow-y: auto; padding: 6px 12px 4px; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+  .year-noscroll::-webkit-scrollbar { width: 3px; }
+  .year-noscroll::-webkit-scrollbar-thumb { background: #2a3a4a; border-radius: 2px; }
 
   /* ====== RECORD CARDS ====== */
   .record-card {
-    background: var(--card-bg); border-radius: 10px; padding: 13px 16px; margin-bottom: 8px;
+    background: var(--card-bg); border-radius: 10px; padding: 9px 14px; margin-bottom: 6px;
     display: flex; justify-content: space-between; align-items: center; cursor: pointer;
     border: 1px solid var(--card-border); transition: transform 0.1s, box-shadow 0.1s;
     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
   .record-card:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
   .record-card:active { transform: scale(0.98); }
-  .record-card .left { font-size: 15px; color: var(--text-red); font-weight: 600; }
+  .record-card .left { font-size: 14px; color: var(--text-red); font-weight: 600; }
   .record-card .left.income { color: var(--text-teal); }
-  .record-card .right { font-size: 15px; color: var(--text-muted); font-weight: 500; text-align: right; }
+  .record-card .right { font-size: 14px; color: var(--text-muted); font-weight: 500; text-align: right; }
   .record-card .right span { color: var(--text-red); font-weight: 700; }
   .record-card .right span.income { color: var(--text-teal); }
 
   /* ====== CATEGORY BUTTONS ====== */
-  .category-section { padding: 10px 12px 8px; background: var(--bg); flex-shrink: 0; }
-  .cat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin-bottom: 7px; }
+  .category-section { padding: 7px 12px 6px; background: var(--bg); flex-shrink: 0; }
+  .cat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 6px; }
   .cat-btn {
-    background: var(--red); color: white; border: none; border-radius: 12px; padding: 10px 4px;
+    background: var(--red); color: white; border: none; border-radius: 10px; padding: 8px 4px;
     font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; line-height: 1.3;
     transition: background 0.15s, transform 0.1s; font-family: inherit;
   }
@@ -123,10 +127,10 @@
   .cat-btn span { display: block; font-size: 10px; opacity: 0.9; }
 
   /* ====== NAV BUTTONS ====== */
-  .nav-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 10px; flex-shrink: 0; }
+  .nav-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px 8px; flex-shrink: 0; }
   .nav-big-btn {
-    background: white; color: var(--text-main); border: 1.5px solid #d0d8e8; border-radius: 12px;
-    padding: 13px; font-size: 16px; font-weight: 700; cursor: pointer; text-align: center;
+    background: white; color: var(--text-main); border: 1.5px solid #d0d8e8; border-radius: 10px;
+    padding: 10px; font-size: 15px; font-weight: 700; cursor: pointer; text-align: center;
     transition: background 0.15s; font-family: inherit;
   }
   .nav-big-btn:hover { background: #f0f4fa; }
@@ -134,7 +138,7 @@
   /* ====== BOTTOM TABS ====== */
   .bottom-tabs {
     background: var(--tab-bg); display: flex; justify-content: space-around;
-    padding: 10px 0 14px; flex-shrink: 0; border-top: 1px solid #1a2535;
+    padding: 8px 0 12px; flex-shrink: 0; border-top: 1px solid #1a2535;
   }
   .tab-btn {
     color: #4a6080; font-size: 14px; font-weight: 600; background: none; border: none;
@@ -146,9 +150,24 @@
   /* ====== MODAL OVERLAY ====== */
   .modal-overlay {
     display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.65);
-    z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(3px);
+    z-index: 100; align-items: flex-end; justify-content: center; backdrop-filter: blur(3px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .modal-overlay.open { display: flex; }
+  /* When keyboard is up, modal slides above it */
+  .modal-overlay.keyboard-up {
+    align-items: flex-start;
+    padding-top: 12px;
+    overflow-y: auto;
+  }
+  .modal-box, .modal-box-dark {
+    margin-bottom: 12px;
+  }
+  .modal-overlay.keyboard-up .modal-box,
+  .modal-overlay.keyboard-up .modal-box-dark {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
 
   /* Light modal (記帳 style) */
   .modal-box {
@@ -214,52 +233,52 @@
 
   /* ====== YEAR SCREEN ====== */
   .summary-card {
-    background: white; border-radius: 14px; padding: 16px; margin-bottom: 12px;
-    display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer;
+    background: white; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer;
   }
   .summary-circle {
-    width: 70px; height: 70px; background: var(--teal); border-radius: 50%; flex-shrink: 0;
+    width: 56px; height: 56px; background: var(--teal); border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.15s;
   }
   .summary-circle:hover { transform: scale(1.05); }
-  .summary-circle svg { width: 50px; height: 50px; }
+  .summary-circle svg { width: 40px; height: 40px; }
   .summary-numbers { flex: 1; }
-  .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 15px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; font-size: 13px; }
   .summary-row .label { color: var(--text-main); font-weight: 600; }
-  .summary-row .amount-red { color: var(--red); font-weight: 700; font-size: 16px; }
-  .summary-row .amount-teal { color: var(--teal); font-weight: 700; font-size: 16px; }
+  .summary-row .amount-red { color: var(--red); font-weight: 700; font-size: 13px; }
+  .summary-row .amount-teal { color: var(--teal); font-weight: 700; font-size: 13px; }
 
-  .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 12px; border-radius: 10px; overflow: hidden; }
-  .toggle-btn { padding: 13px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
+  .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 8px; border-radius: 8px; overflow: hidden; }
+  .toggle-btn { padding: 9px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
   .toggle-btn.expense { background: var(--red); color: white; }
   .toggle-btn.income-btn { background: var(--teal); color: white; }
   .toggle-btn.inactive { opacity: 0.35; }
 
-  .chart-container { background: white; border-radius: 14px; padding: 14px 10px 10px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .chart-container { background: white; border-radius: 12px; padding: 10px 8px 8px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
   canvas#yearChart { width: 100%; }
 
   .month-list { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 12px; }
   .month-item {
-    display: flex; justify-content: space-between; align-items: center; padding: 13px 16px;
+    display: flex; justify-content: space-between; align-items: center; padding: 7px 16px;
     border-bottom: 1px solid #f0f4fa; cursor: pointer; transition: background 0.1s;
   }
   .month-item:last-child { border-bottom: none; }
   .month-item:hover { background: #f8fafc; }
-  .month-name { color: var(--text-main); font-size: 15px; font-weight: 600; }
-  .month-amounts { font-size: 13px; display: flex; gap: 12px; }
+  .month-name { color: var(--text-main); font-size: 14px; font-weight: 600; }
+  .month-amounts { font-size: 12px; display: flex; gap: 10px; }
   .month-exp { color: var(--red); font-weight: 700; }
   .month-inc { color: var(--teal); font-weight: 700; }
 
   .back-big-btn {
-    background: var(--teal); color: white; border: none; border-radius: 14px; padding: 16px;
-    font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
-    margin-top: 4px; transition: background 0.15s; flex-shrink: 0;
+    background: var(--teal); color: white; border: none; border-radius: 12px; padding: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
+    margin-top: 2px; transition: background 0.15s; flex-shrink: 0;
   }
   .back-big-btn:hover { background: var(--teal-dark); }
   .red-big-btn {
-    background: var(--red); color: white; border: none; border-radius: 14px; padding: 16px;
-    font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
-    margin-top: 8px; transition: background 0.15s; flex-shrink: 0;
+    background: var(--red); color: white; border: none; border-radius: 12px; padding: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit;
+    margin-top: 6px; transition: background 0.15s; flex-shrink: 0;
   }
   .red-big-btn:hover { background: var(--red-dark); }
 
@@ -291,11 +310,13 @@
 
   .cangku-table-header {
     display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr; gap: 4px;
-    padding: 10px 14px; background: #1e2d3d; margin: 12px 12px 0; border-radius: 10px 10px 0 0;
+    padding: 10px 14px; background: #1e2d3d; margin: 8px 12px 0; border-radius: 10px 10px 0 0;
     flex-shrink: 0;
   }
   .cangku-table-header span { font-size: 12px; color: #7a9ab8; font-weight: 700; text-align: center; }
   .cangku-table-header span:first-child { text-align: left; }
+  .cangku-table-header span:last-child { text-align: right; }
+  .sort-active { color: #2ec4a9 !important; }
 
   .cangku-list { flex: 1; overflow-y: auto; padding: 0 12px; -webkit-overflow-scrolling: touch; }
   .cangku-list::-webkit-scrollbar { width: 3px; }
@@ -325,6 +346,9 @@
     flex-shrink: 0; transition: background 0.15s;
   }
   .add-big-btn:hover { background: var(--teal-dark); }
+
+  /* sort-active for table header highlight */
+  .sort-active { color: #2ec4a9 !important; }
 
   /* ====== 資產詳情 SCREEN ====== */
   .asset-detail-header {
@@ -410,7 +434,7 @@
   <div class="screen active" id="screen-ledger">
     <div class="top-bar">
       <button class="nav-btn" onclick="changeDay(-1)">＜</button>
-      <h1 id="date-display">2026.06.01</h1>
+      <h1 id="date-display" onclick="openCalendar('ledger-date')" style="cursor:pointer;letter-spacing:1px;"></h1>
       <button class="nav-btn" onclick="changeDay(1)">＞</button>
     </div>
     <div class="scroll-content" id="records-list"></div>
@@ -433,12 +457,12 @@
   <div class="screen" id="screen-year">
     <div class="top-bar">
       <button class="nav-btn" onclick="changeYear(-1)">＜</button>
-      <h1 id="year-display">2026年</h1>
+      <h1 id="year-display" onclick="openYearPicker()" style="cursor:pointer;">2026年</h1>
       <button class="nav-btn" onclick="changeYear(1)">＞</button>
     </div>
-    <div class="year-scroll" id="year-content"></div>
-    <div style="padding:0 12px 10px;flex-shrink:0;">
-      <button class="back-big-btn" onclick="goTab('screen-ledger')">返回記帳</button>
+    <div class="year-noscroll" id="year-content"></div>
+    <div style="padding:0 12px 8px;flex-shrink:0;">
+      <button class="back-big-btn" style="padding:12px;" onclick="goTab('screen-ledger')">返回記帳</button>
     </div>
     <div class="bottom-tabs">
       <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
@@ -451,12 +475,12 @@
   <div class="screen" id="screen-month">
     <div class="top-bar">
       <button class="nav-btn" onclick="changeMonth(-1)">＜</button>
-      <h1 id="month-display">2026年06月</h1>
+      <h1 id="month-display" onclick="openMonthPicker()" style="cursor:pointer;">2026年06月</h1>
       <button class="nav-btn" onclick="changeMonth(1)">＞</button>
     </div>
     <div class="year-scroll" id="month-content"></div>
-    <div style="padding:0 12px 10px;flex-shrink:0;">
-      <button class="back-big-btn" id="back-from-month" onclick="goYear()">返回年份統計</button>
+    <div style="padding:0 12px 8px;flex-shrink:0;">
+      <button class="back-big-btn" style="padding:12px;" id="back-from-month" onclick="goYear()">返回年份統計</button>
     </div>
     <div class="bottom-tabs">
       <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
@@ -475,8 +499,8 @@
     <div class="year-scroll">
       <div style="padding:8px 12px 0;">
         <div class="toggle-row">
-          <button class="toggle-btn expense" id="pie-exp-btn" onclick="setPieMode('expense')">支出</button>
-          <button class="toggle-btn income-btn" id="pie-inc-btn" onclick="setPieMode('income')">收入</button>
+          <button class="toggle-btn expense" id="pie-exp-btn" onclick="togglePieMode('expense')">支出</button>
+          <button class="toggle-btn income-btn inactive" id="pie-inc-btn" onclick="togglePieMode('income')">收入</button>
         </div>
       </div>
       <div class="pie-container">
@@ -494,11 +518,28 @@
     </div>
   </div>
 
-  <!-- ===== SCREEN: 現倉 ===== -->
+  <!-- ===== SCREEN: 圓餅圖類別明細 ===== -->
+  <div class="screen" id="screen-pie-detail">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="showScreenOnly('screen-pie');renderPie()">＜</button>
+      <h1 id="pie-detail-title">飲食明細</h1>
+      <button class="nav-btn" style="opacity:0">＞</button>
+    </div>
+    <div class="year-scroll" id="pie-detail-content"></div>
+    <div class="bottom-tabs">
+      <button class="tab-btn" onclick="goTab('screen-cangku')">現倉</button>
+      <button class="tab-btn active" onclick="goTab('screen-ledger')">記帳</button>
+      <button class="tab-btn" onclick="goTab('screen-settings')">設置</button>
+    </div>
+  </div>
   <div class="screen" id="screen-cangku">
     <div class="cangku-header" id="cangku-header"></div>
-    <div class="cangku-table-header">
-      <span>代碼 ▲</span><span>現價</span><span>股數／成本</span><span>帳目價值</span>
+    <!-- Category filter tabs -->
+    <div class="cangku-table-header" id="cangku-table-header">
+      <span onclick="setCangkuSort('code')" style="cursor:pointer;user-select:none;">代碼 <span id="sort-arrow-code">▲</span></span>
+      <span onclick="setCangkuSort('price')" style="cursor:pointer;user-select:none;text-align:center;">現價 <span id="sort-arrow-price"></span></span>
+      <span onclick="setCangkuSort('shares')" style="cursor:pointer;user-select:none;text-align:center;">股數／成本 <span id="sort-arrow-shares"></span></span>
+      <span onclick="setCangkuSort('pnl')" style="cursor:pointer;user-select:none;text-align:right;">損益 <span id="sort-arrow-pnl"></span></span>
     </div>
     <div class="cangku-list" id="cangku-list"></div>
     <button class="add-big-btn" onclick="openAddAssetModal()">＋ 新增</button>
@@ -545,9 +586,14 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-box">
       <div class="modal-title" id="modal-title">支出 / 飲食</div>
-      <div class="modal-field">
+      <div class="modal-field" id="modal-note-field">
         <label>備註</label>
+        <!-- Normal note input (default) -->
         <input type="text" id="modal-note" placeholder="選填">
+        <!-- Dividend dropdown (shown only for 配息) -->
+        <select id="modal-note-select" style="display:none;width:100%;padding:10px 12px;border:1.5px solid #dde4f0;border-radius:10px;font-size:15px;font-family:inherit;color:#1a2535;background:#f8fafc;outline:none;">
+          <option value="">選擇標的</option>
+        </select>
       </div>
       <div class="modal-field">
         <label>金額</label>
@@ -591,44 +637,80 @@
       </div>
       <button class="btn-confirm" style="width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:4px;" onclick="saveSettings()">確認</button>
       <div class="modal-divider"></div>
+      <!-- Dropbox row -->
+      <div style="margin-bottom:10px;">
+        <div style="font-size:11px;color:#7a9ab8;font-weight:600;margin-bottom:6px;text-align:center;">Dropbox 雲端備份</div>
+        <div style="display:flex;gap:10px;">
+          <button style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;background:#0061FF;color:white;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="dropboxBackup()">
+            ☁️ 備份
+          </button>
+          <button style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;background:#0061FF;color:white;opacity:0.85;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="dropboxRestore()">
+            ⬇️ 還原
+          </button>
+        </div>
+        <div id="dropbox-status" style="font-size:11px;color:#7a9ab8;text-align:center;margin-top:6px;min-height:14px;"></div>
+      </div>
+      <!-- Local file row -->
       <div style="display:flex;gap:10px;">
-        <button class="btn-green" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="backupData()">備份</button>
-        <button class="btn-orange" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="restoreData()">還原</button>
+        <button class="btn-green" style="flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="backupData()">本地下載</button>
+        <button class="btn-orange" style="flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="restoreData()">本地還原</button>
       </div>
     </div>
   </div>
 
   <!-- ===== MODAL: 新增資產 ===== -->
   <div class="modal-overlay" id="add-asset-modal">
-    <div class="modal-box-dark" style="max-height:85%;overflow-y:auto;">
+    <div class="modal-box-dark" style="width:calc(100% - 32px);max-height:90%;overflow-y:auto;">
       <div class="modal-title-dark">新增資產</div>
       <div class="type-tabs" id="asset-type-tabs">
         <button class="type-tab active" onclick="setAssetType('tw')">台股</button>
         <button class="type-tab" onclick="setAssetType('us')">美股</button>
         <button class="type-tab" onclick="setAssetType('crypto')">虛擬幣</button>
       </div>
-      <div class="modal-field">
+      <!-- 代碼 with live search dropdown -->
+      <div class="modal-field" style="position:relative;">
         <label class="dark">代碼</label>
-        <input type="text" class="dark" id="add-asset-code" placeholder="輸入台股代碼或美股代碼">
+        <input type="text" class="dark" id="add-asset-code"
+          placeholder="輸入台股代碼或美股代碼"
+          oninput="onAssetCodeInput()" autocomplete="off"
+          style="text-transform:uppercase;">
+        <!-- Dropdown results -->
+        <div id="asset-code-dropdown"
+          style="display:none;position:absolute;left:0;right:0;top:100%;background:#1a2a3a;border-radius:0 0 10px 10px;z-index:10;max-height:160px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+        </div>
+        <div id="asset-code-status" style="font-size:11px;color:#7a9ab8;margin-top:4px;min-height:14px;"></div>
       </div>
+      <!-- 股數 -->
       <div class="modal-field">
         <label class="dark">股數（可選，可負值）</label>
-        <input type="number" class="dark" id="add-asset-shares" placeholder="輸入股數（可負值）" inputmode="decimal">
+        <input type="number" class="dark" id="add-asset-shares"
+          placeholder="輸入股數（可負值）" inputmode="decimal"
+          oninput="recalcAssetCost()">
       </div>
+      <!-- 投入金額 -->
       <div class="modal-field">
         <label class="dark">投入金額（可選，可負值）</label>
-        <input type="number" class="dark" id="add-asset-invested" placeholder="輸入投入金額（可負值）" inputmode="decimal">
+        <input type="number" class="dark" id="add-asset-invested"
+          placeholder="輸入投入金額（可負值）" inputmode="decimal"
+          oninput="recalcAssetCost()">
       </div>
+      <!-- 平均成本（系統計算） -->
       <div class="modal-field">
-        <label class="dark">平均成本</label>
-        <input type="number" class="dark" id="add-asset-cost" value="0.00" inputmode="decimal">
+        <label class="dark">平均成本（系統自動計算）</label>
+        <input type="number" class="dark" id="add-asset-cost" value="0.00"
+          inputmode="decimal" readonly
+          style="opacity:0.7;cursor:default;">
       </div>
+      <!-- 日期 -->
       <div class="modal-field">
         <label class="dark">日期</label>
-        <input type="text" class="dark" id="add-asset-date" readonly onclick="openCalendar('asset')" style="cursor:pointer;" placeholder="選擇日期">
+        <input type="text" class="dark" id="add-asset-date" readonly
+          onclick="openCalendar('asset')" style="cursor:pointer;" placeholder="選擇日期">
         <input type="hidden" id="add-asset-date-val">
       </div>
-      <button class="btn-confirm" style="width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:8px;" onclick="saveNewAsset()">新增</button>
+      <button class="btn-confirm"
+        style="width:100%;padding:14px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:8px;"
+        onclick="saveNewAsset()">新增</button>
     </div>
   </div>
 
@@ -653,6 +735,33 @@
         <button class="btn-cancel" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="closeModal('add-txn-modal')">取消</button>
         <button class="btn-confirm" style="flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;" onclick="saveTxn()">新增</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Year Picker ===== -->
+  <div class="modal-overlay" id="year-picker-overlay" style="z-index:200;">
+    <div class="modal-box" style="padding:18px;">
+      <div style="font-size:16px;font-weight:700;color:#1a2535;text-align:center;margin-bottom:14px;">選擇年份</div>
+      <div id="year-picker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button onclick="yearPickerNav(-10)" style="flex:1;padding:9px;border-radius:8px;border:1px solid #dde4f0;background:#f8fafc;font-size:13px;cursor:pointer;font-family:inherit;">◀ 前10年</button>
+        <button onclick="yearPickerNav(10)" style="flex:1;padding:9px;border-radius:8px;border:1px solid #dde4f0;background:#f8fafc;font-size:13px;cursor:pointer;font-family:inherit;">後10年 ▶</button>
+      </div>
+      <button onclick="closeYearPicker()" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;border:none;background:#f0f3f8;color:#7a8a99;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">取消</button>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Month Picker ===== -->
+  <div class="modal-overlay" id="month-picker-overlay" style="z-index:200;">
+    <div class="modal-box" style="padding:18px;">
+      <div style="font-size:16px;font-weight:700;color:#1a2535;text-align:center;margin-bottom:4px;">選擇月份</div>
+      <div style="font-size:13px;color:#7a8a99;text-align:center;margin-bottom:12px;">
+        <button onclick="monthPickerNavYear(-1)" style="background:none;border:none;cursor:pointer;font-size:16px;color:#2ec4a9;padding:0 8px;">◀</button>
+        <span id="month-picker-year" style="font-weight:700;color:#1a2535;"></span>
+        <button onclick="monthPickerNavYear(1)" style="background:none;border:none;cursor:pointer;font-size:16px;color:#2ec4a9;padding:0 8px;">▶</button>
+      </div>
+      <div id="month-picker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+      <button onclick="closeMonthPicker()" style="width:100%;margin-top:12px;padding:10px;border-radius:8px;border:none;background:#f0f3f8;color:#7a8a99;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">取消</button>
     </div>
   </div>
 
@@ -685,26 +794,32 @@ const USD_TO_TWD = 31.38; // exchange rate
 // STATE
 // ============================================================
 let records = JSON.parse(localStorage.getItem('records')||'[]');
-let assets = JSON.parse(localStorage.getItem('assets')||'[]'); // [{id,code,name,type,txns:[{date,shares,invested,avgCost,holdAvg}],currentPrice}]
+let assets = JSON.parse(localStorage.getItem('assets')||'[]');
 let settings = JSON.parse(localStorage.getItem('settings')||'{"twdCash":16000,"usdCash":1644.499}');
-let currentDate = new Date(2026,5,1);
-let currentYear = 2026, currentMonth = 5;
+let currentDate = new Date();
+let currentYear = new Date().getFullYear(), currentMonth = new Date().getMonth();
 let editingId = null, modalMode = null, modalCategory = null;
-let calTarget = 'ledger'; // 'ledger'|'asset'|'txn'
+let calTarget = 'ledger';
 let calYear, calMonth;
-let pieFromScreen = 'year', pieViewYear = 2026, pieViewMonth = 5, pieMode = 'expense';
+let pieFromScreen = 'year', pieViewYear = new Date().getFullYear(), pieViewMonth = new Date().getMonth();
+let pieShowExpense = true, pieShowIncome = false; // toggle state
 let currentAssetId = null;
 let newAssetType = 'tw';
+let cangkuFilter = 'all'; // 'all'|'tw'|'us'|'crypto'
+let cangkuSort = 'code'; // 'code'|'pnl'
 
 // ============================================================
-// SEED DATA
+// SEED DATA — only runs once when localStorage has no data
 // ============================================================
 function genId(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
 function saveRecords(){localStorage.setItem('records',JSON.stringify(records));}
 function saveAssets(){localStorage.setItem('assets',JSON.stringify(assets));}
 function saveSettingsData(){localStorage.setItem('settings',JSON.stringify(settings));}
 
-if(records.length===0){
+const _hasRecords = localStorage.getItem('records');
+const _hasAssets  = localStorage.getItem('assets');
+
+if(!_hasRecords){
   records=[
     {id:genId(),date:'2026-01-05',cat:'shop',note:'',amount:57800,type:'expense'},
     {id:genId(),date:'2026-01-10',cat:'bill',note:'',amount:62000,type:'expense'},
@@ -739,32 +854,32 @@ if(records.length===0){
   saveRecords();
 }
 
-if(assets.length===0){
+if(!_hasAssets){
   assets=[
-    {id:genId(),code:'0056',name:'元大高股息',type:'tw',currentPrice:51.9,
+    {id:genId(),code:'0056',name:'元大高股息',type:'tw',currentPrice:51.9,priceDate:'2026-06-01',
      txns:[
-       {id:genId(),date:'2026/2/12',shares:46000,invested:1589000,avgCost:34.54,holdAvg:34.54},
+       {id:genId(),date:'2026-02-12',shares:46000,invested:1589000,avgCost:34.54,holdAvg:34.54},
        {id:genId(),date:'2026-02-25',shares:-1000,invested:-40000,avgCost:40.00,holdAvg:34.42},
        {id:genId(),date:'2026-05-14',shares:0,invested:-44990,avgCost:0.00,holdAvg:33.42},
        {id:genId(),date:'2026-05-18',shares:-1000,invested:-43994,avgCost:43.99,holdAvg:33.18},
        {id:genId(),date:'2026-06-01',shares:7000,invested:361364,avgCost:51.62,holdAvg:35.71},
      ]},
-    {id:genId(),code:'00679B',name:'元大美債20年',type:'tw',currentPrice:26.3,
+    {id:genId(),code:'00679B',name:'元大美債20年',type:'tw',currentPrice:26.3,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-01-10',shares:9000,invested:262260,avgCost:29.14,holdAvg:29.14}]},
-    {id:genId(),code:'00713',name:'00713',type:'tw',currentPrice:58.0,
+    {id:genId(),code:'00713',name:'元大高息低波',type:'tw',currentPrice:58.0,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-01-15',shares:64000,invested:3402240,avgCost:53.16,holdAvg:53.16}]},
-    {id:genId(),code:'00878',name:'國泰永續高股息',type:'tw',currentPrice:32.0,
+    {id:genId(),code:'00878',name:'國泰永續高股息',type:'tw',currentPrice:32.0,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-02-01',shares:87000,invested:1389390,avgCost:15.97,holdAvg:15.97}]},
-    {id:genId(),code:'1227',name:'佳格',type:'tw',currentPrice:28.2,
+    {id:genId(),code:'1227',name:'佳格',type:'tw',currentPrice:28.2,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-01-20',shares:53000,invested:2036790,avgCost:38.43,holdAvg:38.43}]},
-    {id:genId(),code:'1229',name:'聯華',type:'tw',currentPrice:40.4,
+    {id:genId(),code:'1229',name:'聯華',type:'tw',currentPrice:40.4,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-03-01',shares:72686,invested:1676617,avgCost:23.07,holdAvg:23.07}]},
-    {id:genId(),code:'ETH',name:'ETH',type:'crypto',currentPrice:2800,
+    {id:genId(),code:'ETH',name:'ETH',type:'crypto',currentPrice:2800,priceDate:'2026-06-01',
      txns:[{id:genId(),date:'2026-01-05',shares:2.5,invested:70000,avgCost:28000,holdAvg:28000}]},
-    {id:genId(),code:'NVDA',name:'NVIDIA',type:'us',currentPrice:135,
-     txns:[{id:genId(),date:'2026-04-10',shares:100,invested:448860,avgCost:129.5,holdAvg:129.5}]},
-    {id:genId(),code:'XLK',name:'美股XLK',type:'us',currentPrice:220,
-     txns:[{id:genId(),date:'2026-03-15',shares:200,invested:194570,avgCost:194.57,holdAvg:194.57}]},
+    {id:genId(),code:'NVDA',name:'NVIDIA',type:'us',currentPrice:135,priceDate:'2026-06-01',
+     txns:[{id:genId(),date:'2026-04-10',shares:100,invested:13500,avgCost:135,holdAvg:135}]},
+    {id:genId(),code:'XLK',name:'XLK',type:'us',currentPrice:220,priceDate:'2026-06-01',
+     txns:[{id:genId(),date:'2026-03-15',shares:200,invested:44000,avgCost:220,holdAvg:220}]},
   ];
   saveAssets();
 }
@@ -795,36 +910,44 @@ function getAssetShares(asset){
 function getAssetInvested(asset){
   return asset.txns.reduce((a,t)=>a+(t.invested||0),0);
 }
+// Returns current value in TWD for all types
 function getAssetCurrentVal(asset){
   const shares=getAssetShares(asset);
   let price=asset.currentPrice||0;
-  if(asset.type==='us') price*=USD_TO_TWD;
+  if(asset.type==='us'||asset.type==='crypto') price*=USD_TO_TWD;
   return shares*price;
 }
+// PnL: compare current TWD value vs invested amount
+// For US stocks: invested is in USD, so convert to TWD for comparison
 function getAssetPnlPct(asset){
   const invested=getAssetInvested(asset);
   if(!invested) return 0;
   const cur=getAssetCurrentVal(asset);
-  return Math.round((cur-invested)/Math.abs(invested)*100);
+  // US invested is USD, need TWD equivalent for comparison
+  const investedTWD = (asset.type==='us') ? invested*USD_TO_TWD : invested;
+  return Math.round((cur-investedTWD)/Math.abs(investedTWD)*100);
 }
 function getLastHoldAvg(asset){
-  if(!asset.txns.length) return 0;
-  return asset.txns[asset.txns.length-1].holdAvg||0;
+  // Return last txn's holdAvg, sorted by date
+  const sorted=[...asset.txns].sort((a,b)=>a.date.localeCompare(b.date));
+  if(!sorted.length) return 0;
+  return sorted[sorted.length-1].holdAvg||0;
 }
 
 // Total asset value (TWD)
 function calcTotalAssets(){
   const twdCash=settings.twdCash||0;
   const usdCash=(settings.usdCash||0)*USD_TO_TWD;
-  const twStocks=assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetCurrentVal(a),0);
-  const usStocks=assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetCurrentVal(a),0);
-  return twdCash+usdCash+twStocks+usStocks;
+  const stocks=assets.reduce((s,a)=>s+getAssetCurrentVal(a),0);
+  return twdCash+usdCash+stocks;
 }
+// Returns TWD invested for TW stocks + crypto
 function calcTwStockInvested(){
   return assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetInvested(a),0);
 }
+// Returns USD invested for US stocks (raw USD amount)
 function calcUsStockInvested(){
-  return assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetInvested(a),0);
+  return assets.filter(a=>a.type==='us').reduce((s,a)=>s+getAssetInvested(a),0);
 }
 
 // ============================================================
@@ -833,7 +956,7 @@ function calcUsStockInvested(){
 function goTab(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if(id==='screen-ledger') renderLedger();
+  if(id==='screen-ledger'){ currentDate=new Date(); renderLedger(); }
   if(id==='screen-year') renderYear();
   if(id==='screen-month') renderMonth();
   if(id==='screen-cangku') renderCangku();
@@ -937,13 +1060,14 @@ function deleteRecord(id){
 // ============================================================
 // YEAR SCREEN
 // ============================================================
+let yearChartShowExp = true, yearChartShowInc = false;
 function changeYear(d){currentYear+=d;renderYear();}
 function renderYear(){
   document.getElementById('year-display').textContent=`${currentYear}年`;
   const recs=getRecordsByYear(currentYear);
   const totalExp=sumType(recs,'expense'),totalInc=sumType(recs,'income'),bal=totalInc-totalExp;
   const content=document.getElementById('year-content');content.innerHTML='';
-  // Summary card
+  // Summary card with mini pie
   const sumCard=document.createElement('div');sumCard.className='summary-card';
   sumCard.innerHTML=`<div class="summary-circle" onclick="openPieFromYear()">${renderMiniPie(recs)}</div>
     <div class="summary-numbers">
@@ -954,11 +1078,13 @@ function renderYear(){
   content.appendChild(sumCard);
   // Chart
   const chartCard=document.createElement('div');chartCard.className='chart-container';
-  chartCard.innerHTML='<canvas id="yearChart" height="120"></canvas>';
+  chartCard.innerHTML='<canvas id="yearChart" height="100"></canvas>';
   content.appendChild(chartCard);
+  // Toggle switches — both can be on simultaneously
   const toggle=document.createElement('div');toggle.className='toggle-row';
-  toggle.innerHTML=`<button class="toggle-btn expense" id="y-exp-btn" onclick="setYearChartMode('expense')">支出</button>
-    <button class="toggle-btn income-btn inactive" id="y-inc-btn" onclick="setYearChartMode('income')">收入</button>`;
+  toggle.innerHTML=`
+    <button class="toggle-btn expense ${yearChartShowExp?'':'inactive'}" id="y-exp-btn" onclick="toggleYearChart('expense')">支出</button>
+    <button class="toggle-btn income-btn ${yearChartShowInc?'':'inactive'}" id="y-inc-btn" onclick="toggleYearChart('income')">收入</button>`;
   content.appendChild(toggle);
   // Month list
   const monthList=document.createElement('div');monthList.className='month-list';
@@ -969,7 +1095,7 @@ function renderYear(){
     item.innerHTML=`<span class="month-name">${m+1}月</span>
       <span class="month-amounts"><span class="month-exp">支 ${fmtMoney(mExp)}</span><span class="month-inc">入 ${fmtMoney(mInc)}</span></span>`;
     item.onclick=()=>{
-      currentMonth=m; currentYear=currentYear;
+      currentMonth=m;
       document.getElementById('back-from-month').textContent='返回年份統計';
       document.getElementById('back-from-month').onclick=()=>{goTab('screen-year');renderYear();};
       goTab('screen-month');
@@ -977,39 +1103,64 @@ function renderYear(){
     monthList.appendChild(item);
   }
   content.appendChild(monthList);
-  setTimeout(()=>renderYearChart('expense'),50);
+  setTimeout(()=>renderYearChart(),50);
 }
-function setYearChartMode(mode){
+function toggleYearChart(mode){
+  if(mode==='expense') yearChartShowExp=!yearChartShowExp;
+  else yearChartShowInc=!yearChartShowInc;
+  // Keep at least one on
+  if(!yearChartShowExp&&!yearChartShowInc){
+    if(mode==='expense') yearChartShowExp=true; else yearChartShowInc=true;
+  }
   const eb=document.getElementById('y-exp-btn'),ib=document.getElementById('y-inc-btn');
-  if(eb&&ib){eb.classList.toggle('inactive',mode!=='expense');ib.classList.toggle('inactive',mode!=='income');}
-  renderYearChart(mode);
+  if(eb) eb.classList.toggle('inactive',!yearChartShowExp);
+  if(ib) ib.classList.toggle('inactive',!yearChartShowInc);
+  renderYearChart();
 }
-function renderYearChart(mode){
+// Keep old name for compat
+function setYearChartMode(mode){ toggleYearChart(mode); }
+
+function renderYearChart(){
   const canvas=document.getElementById('yearChart');if(!canvas)return;
-  const ctx=canvas.getContext('2d');const W=canvas.offsetWidth||350,H=120;
+  const ctx=canvas.getContext('2d');const W=canvas.offsetWidth||350,H=100;
   canvas.width=W;canvas.height=H;ctx.clearRect(0,0,W,H);
-  const data=[];let maxVal=0;
-  for(let m=0;m<12;m++){const v=sumType(getRecordsByMonth(currentYear,m),mode);data.push(v);if(v>maxVal)maxVal=v;}
+  const expData=[],incData=[];
+  let maxVal=0;
+  for(let m=0;m<12;m++){
+    const recs=getRecordsByMonth(currentYear,m);
+    const e=sumType(recs,'expense'),i=sumType(recs,'income');
+    expData.push(e);incData.push(i);
+    if(yearChartShowExp&&e>maxVal)maxVal=e;
+    if(yearChartShowInc&&i>maxVal)maxVal=i;
+  }
   if(!maxVal)maxVal=1;
-  const padL=48,padR=8,padT=8,padB=28,chartW=W-padL-padR,chartH=H-padT-padB;
-  const barW=(chartW/12)*0.55,gap=chartW/12;
-  const color=mode==='expense'?'#e84040':'#2ec4a9';
+  const padL=52,padR=8,padT=8,padB=28,chartW=W-padL-padR,chartH=H-padT-padB;
+  const groupW=chartW/12,barCount=(yearChartShowExp?1:0)+(yearChartShowInc?1:0);
+  const barW=groupW*0.7/Math.max(barCount,1),gap2=barW*0.2;
+  // Y axis
   ctx.fillStyle='#4a6080';ctx.font='9px sans-serif';ctx.textAlign='right';
   [0,0.25,0.5,0.75,1].forEach(t=>{
     const y=padT+chartH*(1-t);const v=Math.round(maxVal*t);
-    ctx.fillText(v>=1000?Math.round(v/1000)+'k':v,padL-3,y+3);
+    ctx.fillText(v>=1000000?Math.round(v/10000)+'萬':v>=1000?Math.round(v/1000)+'k':v,padL-3,y+3);
     ctx.strokeStyle='#1e2d3d';ctx.lineWidth=0.5;
     ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
   });
-  data.forEach((v,i)=>{
-    const bH=(v/maxVal)*chartH,x=padL+gap*i+(gap-barW)/2,y=padT+chartH-bH,r=Math.min(4,barW/2);
+  function drawBar(v,x,color){
+    if(!v)return;
+    const bH=(v/maxVal)*chartH,y=padT+chartH-bH,r=Math.min(3,barW/2);
     ctx.fillStyle=color;ctx.beginPath();
     ctx.moveTo(x+r,y);ctx.lineTo(x+barW-r,y);ctx.quadraticCurveTo(x+barW,y,x+barW,y+r);
     ctx.lineTo(x+barW,y+bH);ctx.lineTo(x,y+bH);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
     ctx.closePath();ctx.fill();
+  }
+  for(let i=0;i<12;i++){
+    const gx=padL+groupW*i+(groupW-(barCount*(barW+gap2)-gap2))/2;
+    let bx=gx;
+    if(yearChartShowExp){drawBar(expData[i],bx,'#e84040');bx+=barW+gap2;}
+    if(yearChartShowInc){drawBar(incData[i],bx,'#2ec4a9');}
     ctx.fillStyle='#4a6080';ctx.font='9px sans-serif';ctx.textAlign='center';
-    ctx.fillText((i+1)+'月',x+barW/2,H-padB+14);
-  });
+    ctx.fillText((i+1)+'月',padL+groupW*i+groupW/2,H-padB+14);
+  }
 }
 function renderMiniPie(recs){
   const total=sumType(recs,'expense');if(!total)return`<svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="rgba(255,255,255,0.3)"/></svg>`;
@@ -1024,10 +1175,13 @@ function renderMiniPie(recs){
 }
 function openPieFromYear(){
   pieFromScreen='year';pieViewYear=currentYear;
+  pieShowExpense=true;pieShowIncome=false;
+  document.getElementById('pie-exp-btn').classList.remove('inactive');
+  document.getElementById('pie-inc-btn').classList.add('inactive');
   document.getElementById('pie-title').textContent=`${currentYear}年`;
   document.getElementById('pie-back-btn').textContent='返回年份統計';
   document.getElementById('pie-back-btn').onclick=()=>{goTab('screen-year');renderYear();};
-  pieMode='expense';showScreenOnly('screen-pie');renderPie();
+  showScreenOnly('screen-pie');renderPie();
 }
 function showScreenOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
@@ -1045,23 +1199,21 @@ function renderMonth(){
   const recs=getRecordsByMonth(currentYear,currentMonth);
   const totalExp=sumType(recs,'expense'),totalInc=sumType(recs,'income'),bal=totalInc-totalExp;
   const content=document.getElementById('month-content');content.innerHTML='';
-  const sumCard=document.createElement('div');sumCard.className='month-summary-card';
-  sumCard.innerHTML=`
-    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">支出</span><span style="font-size:16px;font-weight:700;color:#e84040">${fmtMoney(totalExp)}</span></div>
-    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">收入</span><span style="font-size:16px;font-weight:700;color:#2ec4a9">${fmtMoney(totalInc)}</span></div>
-    <div class="month-summary-row"><span style="font-size:15px;font-weight:600;color:#1a2535">結餘</span><span style="font-size:16px;font-weight:700;color:${bal>=0?'#2ec4a9':'#e84040'}">${fmtMoney(bal)}</span></div>`;
+
+  // Same summary card style as year screen (mini pie + 支出/收入/結餘)
+  const sumCard=document.createElement('div');sumCard.className='summary-card';
+  sumCard.innerHTML=`<div class="summary-circle" onclick="openPieFromMonth()">${renderMiniPie(recs)}</div>
+    <div class="summary-numbers">
+      <div class="summary-row"><span class="label">支出</span><span class="amount-red">${fmtMoney(totalExp)}</span></div>
+      <div class="summary-row"><span class="label">收入</span><span class="amount-teal">${fmtMoney(totalInc)}</span></div>
+      <div class="summary-row"><span class="label">結餘</span><span class="${bal>=0?'amount-teal':'amount-red'}">${fmtMoney(bal)}</span></div>
+    </div>`;
   content.appendChild(sumCard);
-  const pieBtn=document.createElement('button');pieBtn.className='nav-big-btn';
-  pieBtn.textContent='查看圓餅圖';pieBtn.style.cssText='width:100%;margin-bottom:12px;background:#162030;color:#2ec4a9;border-color:#2ec4a9;';
-  pieBtn.onclick=()=>{
-    pieFromScreen='month';pieViewYear=currentYear;pieViewMonth=currentMonth;
-    document.getElementById('pie-title').textContent=`${currentYear}年${currentMonth+1}月`;
-    document.getElementById('pie-back-btn').textContent='返回月份明細';
-    document.getElementById('pie-back-btn').onclick=()=>{goTab('screen-month');renderMonth();};
-    pieMode='expense';showScreenOnly('screen-pie');renderPie();
-  };
-  content.appendChild(pieBtn);
-  if(!recs.length){const e=document.createElement('div');e.style.cssText='text-align:center;color:#4a6080;margin-top:20px;font-size:14px;';e.textContent='本月尚無記錄';content.appendChild(e);return;}
+
+  if(!recs.length){
+    const e=document.createElement('div');e.style.cssText='text-align:center;color:#4a6080;margin-top:20px;font-size:14px;';
+    e.textContent='本月尚無記錄';content.appendChild(e);return;
+  }
   const listDiv=document.createElement('div');listDiv.className='month-list';
   [...recs].sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>{
     const cat=getCatInfo(r.cat);const inc=r.type==='income';
@@ -1075,90 +1227,208 @@ function renderMonth(){
   content.appendChild(listDiv);
 }
 
+function openPieFromMonth(){
+  pieFromScreen='month';pieViewYear=currentYear;pieViewMonth=currentMonth;
+  pieShowExpense=true;pieShowIncome=false;
+  document.getElementById('pie-exp-btn').classList.remove('inactive');
+  document.getElementById('pie-inc-btn').classList.add('inactive');
+  document.getElementById('pie-title').textContent=`${currentYear}年${currentMonth+1}月`;
+  document.getElementById('pie-back-btn').textContent='返回月份明細';
+  document.getElementById('pie-back-btn').onclick=()=>{goTab('screen-month');renderMonth();};
+  showScreenOnly('screen-pie');renderPie();
+}
+
 // ============================================================
-// PIE CHART
-// ============================================================
-function setPieMode(mode){
-  pieMode=mode;
-  document.getElementById('pie-exp-btn').classList.toggle('inactive',mode!=='expense');
-  document.getElementById('pie-inc-btn').classList.toggle('inactive',mode!=='income');
+// Pie: exclusive toggle (only one active at a time)
+function togglePieMode(mode){
+  pieShowExpense=(mode==='expense');
+  pieShowIncome=(mode==='income');
+  document.getElementById('pie-exp-btn').classList.toggle('inactive',!pieShowExpense);
+  document.getElementById('pie-inc-btn').classList.toggle('inactive',!pieShowIncome);
   renderPie();
 }
+
 function pieBack(){
   if(pieFromScreen==='month'){goTab('screen-month');renderMonth();}
   else{goTab('screen-year');renderYear();}
 }
+
+function drawDonutPie(canvas, segments, bg='#0d1b2a'){
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');const S=220;canvas.width=S;canvas.height=S;
+  ctx.clearRect(0,0,S,S);
+  const cx=S/2,cy=S/2,R=95,innerR=50;
+  const total=segments.reduce((s,c)=>s+c.val,0);
+  if(!total){
+    ctx.strokeStyle='#2a3a4a';ctx.lineWidth=40;
+    ctx.beginPath();ctx.arc(cx,cy,(R+innerR)/2,0,Math.PI*2);ctx.stroke();
+    return;
+  }
+  let a=-Math.PI/2;
+  segments.forEach(c=>{
+    if(!c.val)return;
+    const sw=(c.val/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+    ctx.arc(cx,cy,R,a,a+sw);
+    ctx.arc(cx,cy,innerR,a+sw,a,true);
+    ctx.closePath();
+    ctx.fillStyle=c.color;ctx.fill();
+    // White divider line
+    ctx.strokeStyle=bg;ctx.lineWidth=2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+    ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));
+    ctx.stroke();
+    a+=sw;
+  });
+}
+
 function renderPie(){
-  const recs=pieFromScreen==='month'?getRecordsByMonth(pieViewYear,pieViewMonth):getRecordsByYear(pieViewYear);
-  const cats=pieMode==='expense'?EXPENSE_CATS:INCOME_CATS;
-  const filtered=recs.filter(r=>r.type===pieMode);
-  const total=filtered.reduce((a,r)=>a+r.amount,0);
-  const canvas=document.getElementById('pieChart');if(!canvas)return;
-  const ctx=canvas.getContext('2d');const S=220;canvas.width=S;canvas.height=S;ctx.clearRect(0,0,S,S);
-  const cx=S/2,cy=S/2,R=95,innerR=45;
-  if(!total){ctx.strokeStyle='#2a3a4a';ctx.lineWidth=30;ctx.beginPath();ctx.arc(cx,cy,(R+innerR)/2,0,Math.PI*2);ctx.stroke();}
-  else{
-    let a=-Math.PI/2;
-    cats.forEach(c=>{
-      const v=filtered.filter(r=>r.cat===c.id).reduce((s,r)=>s+r.amount,0);if(!v)return;
-      const sw=(v/total)*Math.PI*2;
-      ctx.beginPath();
-      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
-      ctx.arc(cx,cy,R,a,a+sw);ctx.arc(cx,cy,innerR,a+sw,a,true);ctx.closePath();
-      ctx.fillStyle=PIE_COLORS[c.id]||'#ccc';ctx.fill();
-      ctx.strokeStyle='#0d1b2a';ctx.lineWidth=2.5;ctx.beginPath();
-      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
-      ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();
-      a+=sw;
+  const allRecs=pieFromScreen==='month'?getRecordsByMonth(pieViewYear,pieViewMonth):getRecordsByYear(pieViewYear);
+  // Build combined segment list
+  const segments=[];
+  const labelMap={};
+  if(pieShowExpense){
+    EXPENSE_CATS.forEach(c=>{
+      const v=allRecs.filter(r=>r.type==='expense'&&r.cat===c.id).reduce((s,r)=>s+r.amount,0);
+      if(v) segments.push({catId:c.id,label:c.sub,val:v,color:PIE_COLORS[c.id]||'#ccc',type:'expense'});
     });
   }
-  document.getElementById('pie-legend').innerHTML=cats.map(c=>{
-    const v=filtered.filter(r=>r.cat===c.id).reduce((s,r)=>s+r.amount,0);
-    const pct=total?(v/total*100).toFixed(1):'0.0';
-    return`<div class="legend-item"><div class="legend-left"><div class="legend-dot" style="background:${PIE_COLORS[c.id]||'#ccc'}"></div><span class="legend-name">${c.sub}</span></div><span class="legend-right">${pct}% (${fmtMoney(v)}) ›</span></div>`;
+  if(pieShowIncome){
+    INCOME_CATS.forEach(c=>{
+      const v=allRecs.filter(r=>r.type==='income'&&r.cat===c.id).reduce((s,r)=>s+r.amount,0);
+      if(v) segments.push({catId:c.id,label:c.sub,val:v,color:PIE_COLORS[c.id]||'#ccc',type:'income'});
+    });
+  }
+  const total=segments.reduce((s,c)=>s+c.val,0);
+  drawDonutPie(document.getElementById('pieChart'),segments);
+  // Legend — clickable for detail
+  document.getElementById('pie-legend').innerHTML=segments.map(c=>{
+    const pct=total?(c.val/total*100).toFixed(1):'0.0';
+    return`<div class="legend-item" onclick="openPieDetail('${c.catId}','${c.type}','${c.label}')">
+      <div class="legend-left"><div class="legend-dot" style="background:${c.color}"></div><span class="legend-name">${c.label}</span></div>
+      <span class="legend-right">${pct}% (${fmtMoney(c.val)}) ›</span>
+    </div>`;
   }).join('');
 }
 
+function openPieDetail(catId, type, label){
+  const allRecs=pieFromScreen==='month'?getRecordsByMonth(pieViewYear,pieViewMonth):getRecordsByYear(pieViewYear);
+  const filtered=allRecs.filter(r=>r.cat===catId&&r.type===type).sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('pie-detail-title').textContent=`${label}明細`;
+  const content=document.getElementById('pie-detail-content');
+  content.innerHTML='';
+  if(!filtered.length){
+    content.innerHTML='<div style="text-align:center;color:#4a6080;margin-top:30px;font-size:14px;">無記錄</div>';
+    showScreenOnly('screen-pie-detail');return;
+  }
+  const total=filtered.reduce((s,r)=>s+r.amount,0);
+  const header=document.createElement('div');
+  header.style.cssText=`padding:4px 12px 10px;color:${type==='income'?'#2ec4a9':'#e84040'};font-size:14px;font-weight:700;text-align:right;`;
+  header.textContent=`共 ${fmtMoney(total)}`;
+  content.appendChild(header);
+  filtered.forEach(r=>{
+    const item=document.createElement('div');
+    item.style.cssText='background:white;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.08);cursor:pointer;transition:box-shadow 0.1s;margin-left:12px;margin-right:12px;';
+    item.innerHTML=`<div><div style="font-size:13px;font-weight:600;color:#1a2535;">${formatDateDisplay(r.date)}</div><div style="font-size:12px;color:#7a8a99;margin-top:2px;">${r.note||'—'}</div></div>
+      <div style="font-size:16px;font-weight:700;color:${type==='income'?'#2ec4a9':'#e84040'};">${r.amount.toLocaleString()} ›</div>`;
+    item.onmouseenter=()=>item.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';
+    item.onmouseleave=()=>item.style.boxShadow='0 1px 4px rgba(0,0,0,0.08)';
+    item.onclick=()=>{
+      // Open edit modal, then return to pie-detail
+      openEditModal(r.id);
+      // After close, return to pie-detail screen
+      const origClose = window._pieDetailCloseHook;
+      window._pieDetailCloseHook = ()=>{ showScreenOnly('screen-pie-detail'); openPieDetail(catId,type,label); };
+    };
+    content.appendChild(item);
+  });
+  showScreenOnly('screen-pie-detail');
+}
+
 // ============================================================
-// 現倉 SCREEN
+// 現倉 SCREEN — filter + sort
 // ============================================================
+let cangkuSortDir = 1; // 1=asc, -1=desc
+function setCangkuSort(field){
+  if(cangkuSort===field) cangkuSortDir*=-1;
+  else { cangkuSort=field; cangkuSortDir=(field==='pnl')?-1:1; }
+  ['code','price','shares','pnl'].forEach(f=>{
+    const el=document.getElementById('sort-arrow-'+f);
+    if(el) el.textContent = (f===cangkuSort)?(cangkuSortDir===1?'▲':'▼'):'';
+  });
+  renderCangkuList();
+}
+
 function renderCangku(){
   const total=calcTotalAssets();
   const twInvested=calcTwStockInvested();
   const usInvested=calcUsStockInvested();
   const twdCash=settings.twdCash||0;
   const usdCash=settings.usdCash||0;
-
+  const today=todayStr();
+  const stale=assets.filter(a=>a.priceDate!==today);
+  const freshNote=stale.length
+    ?`<div id="price-refresh-bar" style="font-size:11px;color:#f0a06a;text-align:center;padding:4px 0 0;cursor:pointer;" onclick="startPriceRefresh()">⟳ ${stale.length} 檔待更新今日報價，點此更新</div>`
+    :`<div style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;padding:4px 0 0;">✓ 報價已是今日最新</div>`;
   document.getElementById('cangku-header').innerHTML=`
     <div class="cangku-header-title">帳目總值</div>
     <div class="cangku-header-total">TWD ${Math.round(total).toLocaleString()}</div>
     <div class="cangku-header-grid">
       <div class="cangku-stat"><div class="cangku-stat-label">投入台幣</div><div class="cangku-stat-val">TWD ${Math.round(twInvested).toLocaleString()}</div></div>
       <div class="cangku-stat" style="text-align:right"><div class="cangku-stat-label">可用台幣</div><div class="cangku-stat-val">TWD ${Math.round(twdCash).toLocaleString()}</div></div>
-      <div class="cangku-stat"><div class="cangku-stat-label">投入美金</div><div class="cangku-stat-val">USD ${Math.round(usInvested/USD_TO_TWD).toLocaleString()}</div></div>
-      <div class="cangku-stat" style="text-align:right"><div class="cangku-stat-label">可用美金</div><div class="cangku-stat-val">USD ${Math.round(usdCash).toLocaleString()}</div></div>
-    </div>`;
+      <div class="cangku-stat"><div class="cangku-stat-label">投入美金</div><div class="cangku-stat-val">USD ${fmtNum(usInvested,0)}</div></div>
+      <div class="cangku-stat" style="text-align:right"><div class="cangku-stat-label">可用美金</div><div class="cangku-stat-val">USD ${fmtNum(usdCash,0)}</div></div>
+    </div>${freshNote}`;
+  renderCangkuList();
+  refreshAllPrices();
+}
 
-  const list=document.getElementById('cangku-list');list.innerHTML='';
-  const sorted=[...assets].sort((a,b)=>a.code.localeCompare(b.code));
-  sorted.forEach(asset=>{
+function renderCangkuList(){
+  const today=todayStr();
+  let list=[...assets];
+  list.sort((a,b)=>{
+    let va,vb;
+    if(cangkuSort==='code'){va=a.code;vb=b.code;return cangkuSortDir*(va<vb?-1:va>vb?1:0);}
+    if(cangkuSort==='price'){
+      va=a.type==='crypto'?a.currentPrice*USD_TO_TWD:a.currentPrice;
+      vb=b.type==='crypto'?b.currentPrice*USD_TO_TWD:b.currentPrice;
+    } else if(cangkuSort==='shares'){va=getAssetShares(a);vb=getAssetShares(b);}
+    else if(cangkuSort==='pnl'){va=getAssetPnlPct(a);vb=getAssetPnlPct(b);}
+    else{va=0;vb=0;}
+    return cangkuSortDir*(va-vb);
+  });
+  const el=document.getElementById('cangku-list');el.innerHTML='';
+  list.forEach(asset=>{
     const shares=getAssetShares(asset);
     const holdAvg=getLastHoldAvg(asset);
-    const curVal=getAssetCurrentVal(asset);
     const pnl=getAssetPnlPct(asset);
+    const isStale=asset.priceDate!==today;
+    let priceStr=asset.type==='crypto'
+      ?Math.round(asset.currentPrice*USD_TO_TWD).toLocaleString()
+      :fmtNum(asset.currentPrice);
+    if(isStale) priceStr+=`<span style="color:#f0a06a;font-size:9px;margin-left:2px;">昨</span>`;
     const row=document.createElement('div');row.className='asset-row';
     row.innerHTML=`
-      <div><div class="asset-code">${asset.code}</div><div class="asset-name">${asset.name}</div><div class="asset-price-cur">${fmtNum(asset.currentPrice)}</div></div>
-      <div class="asset-price">${fmtNum(asset.currentPrice)}</div>
+      <div><div class="asset-code">${asset.code}</div></div>
+      <div class="asset-price" style="font-size:13px;">${priceStr}</div>
       <div><div class="asset-shares" style="text-align:center">${shares.toLocaleString()}</div><div class="asset-cost">${fmtNum(holdAvg)}</div></div>
       <div class="asset-pnl ${pnl>=0?'pnl-pos':'pnl-neg'}">${pnl>=0?'+':''}${pnl}%</div>`;
     row.onclick=()=>openAssetDetail(asset.id);
-    list.appendChild(row);
+    el.appendChild(row);
   });
 }
 
+async function startPriceRefresh(){
+  const bar=document.getElementById('price-refresh-bar');
+  if(bar){bar.textContent='⟳ 更新中…';bar.style.color='#2ec4a9';}
+  await refreshAllPrices();
+  renderCangku();
+}
+
 // ============================================================
-// 資產詳情 SCREEN
+// 資產詳情 SCREEN — delete with cash reversal, txn delete
 // ============================================================
 function openAssetDetail(assetId){
   currentAssetId=assetId;
@@ -1173,7 +1443,7 @@ function renderAssetDetail(asset){
   document.getElementById('asset-detail-header').innerHTML=`
     <div>
       <div class="asset-detail-code">${asset.code}</div>
-      <div class="asset-detail-name">${asset.name}</div>
+      <div class="asset-detail-name">${asset.type==='tw'?(asset.name||''):''}</div>
       <div class="asset-detail-curprice">${fmtNum(asset.currentPrice)}</div>
     </div>
     <div style="text-align:center;font-size:18px;font-weight:700;color:#1a2535">${shares.toLocaleString()}</div>
@@ -1182,8 +1452,16 @@ function renderAssetDetail(asset){
   const txnList=document.getElementById('txn-list');txnList.innerHTML='';
   [...asset.txns].sort((a,b)=>b.date.localeCompare(a.date)).forEach(t=>{
     const row=document.createElement('div');row.className='txn-row';
+    if(t.readonly||t.isDividend){
+      row.style.opacity='0.6';row.style.cursor='default';
+      row.title='配息紀錄（不可編輯）';
+    } else {
+      row.style.cursor='pointer';
+      row.onclick=()=>confirmDeleteTxn(asset.id,t.id);
+      row.title='點擊刪除此紀錄';
+    }
     row.innerHTML=`
-      <div class="txn-date">${t.date}</div>
+      <div class="txn-date">${t.date}${t.isDividend?'<span style="color:#f0a06a;font-size:9px;margin-left:3px;">配</span>':''}</div>
       <div class="txn-val ${t.shares<0?'neg':''}">${t.shares>0?'+':''}${t.shares}</div>
       <div class="txn-val ${t.invested<0?'neg':''}">${t.invested>=0?'$'+Math.abs(t.invested).toLocaleString():'-$'+Math.abs(t.invested).toLocaleString()}</div>
       <div class="txn-val">${fmtNum(t.avgCost)}</div>
@@ -1191,16 +1469,50 @@ function renderAssetDetail(asset){
     txnList.appendChild(row);
   });
 }
+
+function confirmDeleteTxn(assetId, txnId){
+  if(!confirm('確定刪除此交易紀錄？刪除後將反應在可用現金。'))return;
+  const asset=assets.find(a=>a.id===assetId);if(!asset)return;
+  const txn=asset.txns.find(t=>t.id===txnId);if(!txn)return;
+  // Reverse cash effect
+  if(txn.invested!==0) applyTxnToCash(asset.type, txn.invested, true);
+  asset.txns=asset.txns.filter(t=>t.id!==txnId);
+  // Recalculate holdAvg for all remaining txns
+  recalcHoldAvg(asset);
+  // Check if total shares = 0 → auto-delete asset
+  if(getAssetShares(asset)===0 && asset.txns.every(t=>t.isDividend||t.readonly)){
+    assets=assets.filter(a=>a.id!==assetId);saveAssets();goTab('screen-cangku');return;
+  }
+  saveAssets();renderAssetDetail(asset);
+}
+
+function recalcHoldAvg(asset){
+  // Sort txns by date, recalculate holdAvg sequentially
+  asset.txns.sort((a,b)=>a.date.localeCompare(b.date));
+  let cumShares=0,cumInvested=0;
+  asset.txns.forEach(t=>{
+    if(t.isDividend||t.readonly){t.holdAvg=cumShares?cumInvested/cumShares:0;return;}
+    cumShares+=t.shares; cumInvested+=t.invested;
+    t.avgCost=t.shares?parseFloat(fmtNum(Math.abs(t.invested/t.shares))):0;
+    t.holdAvg=cumShares?parseFloat(fmtNum(cumInvested/cumShares)):0;
+  });
+}
+
 function deleteCurrentAsset(){
-  if(!confirm('確定刪除此資產？'))return;
+  if(!confirm('確定刪除此資產？刪除後投入金額將反應在可用現金。'))return;
+  const asset=assets.find(a=>a.id===currentAssetId);if(!asset)return;
+  // Reverse ALL txn cash effects
+  asset.txns.filter(t=>!t.isDividend&&!t.readonly).forEach(t=>{
+    if(t.invested!==0) applyTxnToCash(asset.type, t.invested, true);
+  });
   assets=assets.filter(a=>a.id!==currentAssetId);saveAssets();goTab('screen-cangku');
 }
 function openAddTxnModal(){
   document.getElementById('add-txn-shares').value='';
   document.getElementById('add-txn-invested').value='';
-  const today=dateStr(new Date(2026,5,4));
-  document.getElementById('add-txn-date').value=today;
-  document.getElementById('add-txn-date-val').value=today;
+  const ds=todayStr();
+  document.getElementById('add-txn-date').value=ds;
+  document.getElementById('add-txn-date-val').value=ds;
   document.getElementById('add-txn-modal').classList.add('open');
 }
 function saveTxn(){
@@ -1213,43 +1525,508 @@ function saveTxn(){
   const holdAvg=totalShares?totalInvested/totalShares:0;
   const avgCost=shares?Math.abs(invested/shares):0;
   asset.txns.push({id:genId(),date,shares,invested,avgCost:parseFloat(fmtNum(avgCost)),holdAvg:parseFloat(fmtNum(holdAvg))});
+  // ---- Linkage: US stock → usdCash; tw/crypto → twdCash ----
+  if(invested!==0) applyTxnToCash(asset.type, invested, false);
+  // Auto-delete if total shares = 0 (only non-dividend txns matter)
+  if(totalShares===0){
+    // Revert all invested cash first was already done per-txn, so just remove
+    assets=assets.filter(a=>a.id!==currentAssetId);
+    saveAssets();closeModal('add-txn-modal');goTab('screen-cangku');return;
+  }
   saveAssets();closeModal('add-txn-modal');renderAssetDetail(asset);
+  const active=document.querySelector('.screen.active');
+  if(active&&active.id==='screen-settings') renderSettings();
 }
 
 // ============================================================
-// 新增資產 MODAL
+// KEYBOARD AVOIDANCE — modals slide above soft keyboard
 // ============================================================
+(function(){
+  let origViewH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  function onViewportChange(){
+    if(!window.visualViewport) return;
+    const vh = window.visualViewport.height;
+    const keyboardUp = (origViewH - vh) > 100;
+    document.querySelectorAll('.modal-overlay.open').forEach(el=>{
+      el.classList.toggle('keyboard-up', keyboardUp);
+      if(keyboardUp){
+        // scroll active input into view inside modal
+        const active = document.activeElement;
+        if(active && el.contains(active)){
+          setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),100);
+        }
+      }
+    });
+  }
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', onViewportChange);
+    window.visualViewport.addEventListener('scroll', onViewportChange);
+  }
+  // Also handle focus events
+  document.addEventListener('focusin', ()=>setTimeout(onViewportChange, 300));
+  document.addEventListener('focusout', ()=>setTimeout(onViewportChange, 300));
+})();
+
+// ============================================================
+// LINKAGE: 記帳 ↔ 台幣現金 / 美金現金
+// ============================================================
+// All income/expense in 記帳 affects twdCash
+// (美股/crypto transactions affect usdCash — handled in saveTxn & saveNewAsset)
+function applyLedgerToSettings(amount, type, isDelete){
+  // positive amount = record amount, type='income'|'expense'
+  const delta = type==='income' ? amount : -amount;
+  const adj = isDelete ? -delta : delta;
+  settings.twdCash = (settings.twdCash||0) + adj;
+  if(settings.twdCash < 0) settings.twdCash = 0;
+  saveSettingsData();
+}
+
+// When a transaction in 現倉 is added:
+// US stock: invested is USD → affects usdCash directly (no conversion)
+// TW stock / crypto: invested is TWD → affects twdCash
+function applyTxnToCash(assetType, investedAmount, isDelete){
+  const delta = -investedAmount; // cash changes opposite to invested (buy = cash out)
+  const adj = isDelete ? -delta : delta;
+  if(assetType==='us'){
+    settings.usdCash = (settings.usdCash||0) + adj;
+    if(settings.usdCash < 0) settings.usdCash = 0;
+  } else {
+    settings.twdCash = (settings.twdCash||0) + adj;
+    if(settings.twdCash < 0) settings.twdCash = 0;
+  }
+  saveSettingsData();
+}
+
+// ============================================================
+// 配息備註下拉選單
+// ============================================================
+function setupDividendDropdown(show){
+  const noteInput = document.getElementById('modal-note');
+  const noteSelect = document.getElementById('modal-note-select');
+  if(show){
+    noteInput.style.display = 'none';
+    noteSelect.style.display = 'block';
+    // Populate with TW stock codes from 現倉
+    const twAssets = assets.filter(a=>a.type==='tw');
+    noteSelect.innerHTML = '<option value="">選擇標的（選填）</option>' +
+      twAssets.map(a=>`<option value="${a.code}">${a.code} ${a.name}</option>`).join('');
+  } else {
+    noteInput.style.display = 'block';
+    noteSelect.style.display = 'none';
+  }
+}
+function getModalNote(){
+  const noteSelect = document.getElementById('modal-note-select');
+  if(noteSelect.style.display !== 'none') return noteSelect.value;
+  return document.getElementById('modal-note').value.trim();
+}
+
+// ============================================================
+// LEDGER: openAddModal / saveRecord / deleteRecord
+// ============================================================
+function openAddModal(catId, type){
+  editingId=null; modalMode='add'; modalCategory=catId;
+  const cat=getCatInfo(catId);
+  const t=document.getElementById('modal-title');
+  t.textContent=`${cat.label} / ${cat.sub}`;
+  t.style.color=type==='expense'?'#e84040':'#2ec4a9';
+  document.getElementById('modal-note').value='';
+  document.getElementById('modal-amount').value='';
+  document.getElementById('modal-date-display').value=formatDateDisplay(dateStr(currentDate));
+  document.getElementById('modal-date-val').value=dateStr(currentDate);
+  // Show dividend dropdown only for 配息
+  setupDividendDropdown(catId==='dividend');
+  const isExp=type==='expense';
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn-cancel" onclick="closeModal('modal-overlay')">取消</button>
+    <button class="btn-confirm ${isExp?'expense':''}" onclick="saveRecord()">儲存</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('modal-amount').focus(),200);
+}
+
+function openEditModal(id){
+  const rec=records.find(r=>r.id===id);if(!rec)return;
+  editingId=id; modalMode='edit'; modalCategory=rec.cat;
+  const cat=getCatInfo(rec.cat);
+  const t=document.getElementById('modal-title');
+  t.textContent=`${cat.label} / ${cat.sub}`;
+  t.style.color=rec.type==='expense'?'#e84040':'#2ec4a9';
+  // Setup note field
+  const isDividend = rec.cat==='dividend';
+  setupDividendDropdown(isDividend);
+  if(isDividend){
+    document.getElementById('modal-note-select').value=rec.note||'';
+  } else {
+    document.getElementById('modal-note').value=rec.note||'';
+  }
+  document.getElementById('modal-amount').value=rec.amount;
+  document.getElementById('modal-date-display').value=formatDateDisplay(rec.date);
+  document.getElementById('modal-date-val').value=rec.date;
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn-delete" onclick="deleteRecord('${id}')">刪除</button>
+    <button class="btn-confirm" onclick="saveRecord()">更新</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function saveRecord(){
+  const amount=parseFloat(document.getElementById('modal-amount').value);
+  if(!amount||amount<=0){document.getElementById('modal-amount').style.borderColor='#e84040';return;}
+  document.getElementById('modal-amount').style.borderColor='';
+  const note=getModalNote();
+  const dateVal=document.getElementById('modal-date-val').value;
+
+  if(modalMode==='add'){
+    const type=EXPENSE_CATS.find(c=>c.id===modalCategory)?'expense':'income';
+    records.push({id:genId(),date:dateVal,cat:modalCategory,note,amount,type});
+    // ---- Linkage: update twdCash ----
+    applyLedgerToSettings(amount, type, false);
+    // ---- Linkage: 配息 → 現倉資產新增一筆紀錄（股數0,金額-amount,不可編輯）----
+    if(modalCategory==='dividend' && note){
+      const divAsset = assets.find(a=>a.code===note && a.type==='tw');
+      if(divAsset){
+        const oldShares=getAssetShares(divAsset);
+        const oldInvested=getAssetInvested(divAsset);
+        const newInvested=oldInvested-amount; // dividend reduces cost basis
+        const holdAvg=oldShares?newInvested/oldShares:0;
+        divAsset.txns.push({
+          id:genId(), date:dateVal, shares:0, invested:-amount,
+          avgCost:0, holdAvg:parseFloat(fmtNum(holdAvg)),
+          isDividend:true, readonly:true
+        });
+        saveAssets();
+      }
+    }
+  } else {
+    const rec=records.find(r=>r.id===editingId);
+    if(rec){
+      // Reverse old linkage
+      applyLedgerToSettings(rec.amount, rec.type, true);
+      // Apply new
+      applyLedgerToSettings(amount, rec.type, false);
+      rec.note=note; rec.amount=amount; rec.date=dateVal;
+    }
+  }
+  saveRecords(); closeModal('modal-overlay');
+  refreshActiveScreen();
+}
+
+function deleteRecord(id){
+  if(!confirm('確定要刪除此筆記錄？'))return;
+  const rec=records.find(r=>r.id===id);
+  if(rec) applyLedgerToSettings(rec.amount, rec.type, true);
+  records=records.filter(r=>r.id!==id); saveRecords(); closeModal('modal-overlay');
+  refreshActiveScreen();
+}
+function refreshActiveScreen(){
+  const active=document.querySelector('.screen.active');
+  if(!active) return;
+  if(active.id==='screen-ledger') renderLedger();
+  else if(active.id==='screen-month') renderMonth();
+  else if(active.id==='screen-year') renderYear();
+  else if(active.id==='screen-settings') renderSettings();
+  else if(active.id==='screen-cangku') renderCangku();
+}
+
+// ============================================================
+// 新增資產 MODAL — 代碼搜尋 + 報價
+// ============================================================
+
+// ---- 每日報價快取 ----
+let priceCache = JSON.parse(localStorage.getItem('priceCache')||'{}');
+function savePriceCache(){ localStorage.setItem('priceCache', JSON.stringify(priceCache)); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function getCachedPrice(code){
+  const c = priceCache[code.toUpperCase()];
+  if(c && c.date === todayStr()) return c;
+  return null;
+}
+function setCachedPrice(code, price, name){
+  priceCache[code.toUpperCase()] = { price, name: name||code, date: todayStr() };
+  savePriceCache();
+}
+
+// ---- 報價 API ----
+async function fetchTWPrice(code){
+  const cached = getCachedPrice(code+'.TW');
+  if(cached) return cached;
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(code+'.TW')}?interval=1d&range=1d`;
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxy, {signal: AbortSignal.timeout(8000)});
+    const json = await res.json();
+    const meta = JSON.parse(json.contents).chart.result[0].meta;
+    const price = meta.regularMarketPrice || meta.previousClose;
+    const name = meta.shortName || meta.symbol || code;
+    setCachedPrice(code+'.TW', price, name);
+    return { price, name };
+  } catch(e){ return null; }
+}
+async function fetchUSPrice(code){
+  const cached = getCachedPrice(code);
+  if(cached) return cached;
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(code)}?interval=1d&range=1d`;
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxy, {signal: AbortSignal.timeout(8000)});
+    const json = await res.json();
+    const meta = JSON.parse(json.contents).chart.result[0].meta;
+    const price = meta.regularMarketPrice || meta.previousClose;
+    const name = meta.shortName || meta.longName || code;
+    setCachedPrice(code, price, name);
+    return { price, name };
+  } catch(e){ return null; }
+}
+const COIN_ID_MAP = {
+  'BTC':'bitcoin','ETH':'ethereum','BNB':'binancecoin','SOL':'solana',
+  'XRP':'ripple','ADA':'cardano','DOGE':'dogecoin','DOT':'polkadot',
+  'MATIC':'matic-network','LINK':'chainlink','LTC':'litecoin','AVAX':'avalanche-2',
+  'UNI':'uniswap','ATOM':'cosmos','TRX':'tron','TON':'the-open-network',
+};
+async function fetchCryptoPrice(symbol){
+  const key = symbol.toUpperCase();
+  const cached = getCachedPrice(key);
+  if(cached) return cached;
+  try {
+    let coinId = COIN_ID_MAP[key];
+    if(!coinId){
+      const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.coingecko.com/api/v3/search?query='+encodeURIComponent(symbol))}`;
+      const res = await fetch(proxy, {signal: AbortSignal.timeout(8000)});
+      const data = JSON.parse((await res.json()).contents);
+      if(data.coins?.length) coinId = data.coins[0].id;
+    }
+    if(!coinId) return null;
+    const proxy2 = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.coingecko.com/api/v3/simple/price?ids='+coinId+'&vs_currencies=usd')}`;
+    const res2 = await fetch(proxy2, {signal: AbortSignal.timeout(8000)});
+    const data2 = JSON.parse((await res2.json()).contents);
+    const price = data2[coinId]?.usd;
+    if(!price) return null;
+    setCachedPrice(key, price, key);
+    return { price, name: key };
+  } catch(e){ return null; }
+}
+
+// ---- 常用標的清單 ----
+const TW_POPULAR = [
+  {code:'0050',name:'元大台灣50'},{code:'0056',name:'元大高股息'},{code:'00878',name:'國泰永續高股息'},
+  {code:'00713',name:'元大台灣高息低波'},{code:'006208',name:'富邦台50'},{code:'00679B',name:'元大美債20年'},
+  {code:'00772B',name:'中信高評級公司債'},{code:'1101',name:'台泥'},{code:'1216',name:'統一'},
+  {code:'1227',name:'佳格'},{code:'1229',name:'聯華'},{code:'1301',name:'台塑'},
+  {code:'1303',name:'南亞'},{code:'1326',name:'台化'},{code:'2002',name:'中鋼'},
+  {code:'2207',name:'和泰車'},{code:'2303',name:'聯電'},{code:'2308',name:'台達電'},
+  {code:'2317',name:'鴻海'},{code:'2330',name:'台積電'},{code:'2357',name:'華碩'},
+  {code:'2379',name:'瑞昱'},{code:'2382',name:'廣達'},{code:'2395',name:'研華'},
+  {code:'2412',name:'中華電'},{code:'2454',name:'聯發科'},{code:'2603',name:'長榮'},
+  {code:'2615',name:'萬海'},{code:'2618',name:'長榮航'},{code:'2882',name:'國泰金'},
+  {code:'2884',name:'玉山金'},{code:'2885',name:'元大金'},{code:'2886',name:'兆豐金'},
+  {code:'2891',name:'中信金'},{code:'2912',name:'統一超'},{code:'3008',name:'大立光'},
+  {code:'3034',name:'聯詠'},{code:'3045',name:'台灣大'},{code:'4938',name:'和碩'},
+  {code:'5871',name:'中租-KY'},{code:'6505',name:'台塑化'},{code:'1519',name:'華城'},
+  {code:'6441',name:'廣錠'},{code:'9945',name:'潤泰新'},
+];
+const US_POPULAR = [
+  {code:'AAPL',name:'Apple'},{code:'MSFT',name:'Microsoft'},{code:'GOOGL',name:'Alphabet'},
+  {code:'AMZN',name:'Amazon'},{code:'META',name:'Meta'},{code:'NVDA',name:'NVIDIA'},
+  {code:'TSLA',name:'Tesla'},{code:'BRK-B',name:'Berkshire B'},{code:'JPM',name:'JPMorgan'},
+  {code:'V',name:'Visa'},{code:'XOM',name:'ExxonMobil'},{code:'SPY',name:'SPDR S&P 500 ETF'},
+  {code:'QQQ',name:'Invesco QQQ'},{code:'XLK',name:'Technology SPDR'},
+  {code:'VTI',name:'Vanguard Total Stock'},{code:'VOO',name:'Vanguard S&P 500'},
+  {code:'TSM',name:'Taiwan Semiconductor ADR'},{code:'FIG',name:'Figma'},
+];
+const CRYPTO_POPULAR = [
+  {code:'BTC',name:'Bitcoin'},{code:'ETH',name:'Ethereum'},{code:'BNB',name:'BNB'},
+  {code:'SOL',name:'Solana'},{code:'XRP',name:'XRP'},{code:'ADA',name:'Cardano'},
+  {code:'DOGE',name:'Dogecoin'},{code:'DOT',name:'Polkadot'},{code:'AVAX',name:'Avalanche'},
+  {code:'LINK',name:'Chainlink'},{code:'UNI',name:'Uniswap'},{code:'LTC',name:'Litecoin'},
+];
+
+let assetCodeDebounce = null;
+let selectedAssetMeta = null; // {code, name, price, type} — filled by dropdown pick or auto-lookup
+
 function setAssetType(type){
-  newAssetType=type;
+  newAssetType = type;
   document.querySelectorAll('.type-tab').forEach(b=>b.classList.remove('active'));
   const idx={tw:0,us:1,crypto:2}[type];
   document.getElementById('asset-type-tabs').children[idx].classList.add('active');
+  const ph={tw:'輸入台股代碼或名稱',us:'輸入美股代碼或名稱',crypto:'輸入虛擬幣代碼'};
+  document.getElementById('add-asset-code').placeholder = ph[type];
+  // clear
+  document.getElementById('add-asset-code').value='';
+  document.getElementById('asset-code-dropdown').style.display='none';
+  document.getElementById('asset-code-status').textContent='';
+  selectedAssetMeta = null;
+  recalcAssetCost();
 }
+
+function onAssetCodeInput(){
+  const q = document.getElementById('add-asset-code').value.trim();
+  selectedAssetMeta = null;
+  document.getElementById('asset-code-status').textContent='';
+  clearTimeout(assetCodeDebounce);
+  if(!q){ document.getElementById('asset-code-dropdown').style.display='none'; return; }
+  // Show local matches immediately
+  showCodeDropdown(q);
+  // Debounce: if code looks exact (no spaces) try live fetch
+  if(q.length >= 3 && !q.includes(' ')){
+    assetCodeDebounce = setTimeout(()=>liveCodeLookup(q), 700);
+  }
+}
+
+function showCodeDropdown(q){
+  const list = newAssetType==='tw' ? TW_POPULAR : newAssetType==='us' ? US_POPULAR : CRYPTO_POPULAR;
+  const ql = q.toLowerCase();
+  const matches = list.filter(i=>
+    i.code.toLowerCase().startsWith(ql) || i.name.toLowerCase().includes(ql)
+  ).slice(0,8);
+  if(!matches.length){ document.getElementById('asset-code-dropdown').style.display='none'; return; }
+  const dd = document.getElementById('asset-code-dropdown');
+  dd.style.display='block';
+  dd.innerHTML = matches.map(m=>{
+    const cached = getCachedPrice(newAssetType==='tw' ? m.code+'.TW' : m.code);
+    const priceStr = cached ? `<span style="color:var(--teal);font-size:13px;font-weight:700;">${cached.price}</span>` : '';
+    return `<div onclick="pickCodeResult('${m.code}','${m.name.replace(/'/g,"&#39;")}')"
+      style="display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid #0f1e2d;cursor:pointer;"
+      onmouseenter="this.style.background='#243040'" onmouseleave="this.style.background=''">
+      <div>
+        <span style="color:white;font-weight:700;font-size:14px;">${m.code}</span>
+        <span style="color:#7a9ab8;font-size:12px;margin-left:8px;">${m.name}</span>
+      </div>
+      ${priceStr}
+    </div>`;
+  }).join('');
+}
+
+async function liveCodeLookup(code){
+  const status = document.getElementById('asset-code-status');
+  status.textContent = '查詢報價…';
+  let r = null;
+  if(newAssetType==='tw') r = await fetchTWPrice(code);
+  else if(newAssetType==='us') r = await fetchUSPrice(code);
+  else r = await fetchCryptoPrice(code);
+  if(r){
+    status.textContent = `現價：${r.price} (${r.name})`;
+    status.style.color = '#2ec4a9';
+    selectedAssetMeta = { code: code.toUpperCase(), name: r.name||code, price: r.price, type: newAssetType };
+    document.getElementById('add-asset-code').value = code.toUpperCase();
+    recalcAssetCost();
+  } else {
+    status.textContent = '未找到報價，請確認代碼';
+    status.style.color = '#e84040';
+  }
+}
+
+async function pickCodeResult(code, name){
+  document.getElementById('add-asset-code').value = code;
+  document.getElementById('asset-code-dropdown').style.display='none';
+  const status = document.getElementById('asset-code-status');
+  status.textContent = '取得報價中…';
+  status.style.color = '#7a9ab8';
+  let price = null;
+  let r = null;
+  if(newAssetType==='tw') r = await fetchTWPrice(code);
+  else if(newAssetType==='us') r = await fetchUSPrice(code);
+  else r = await fetchCryptoPrice(code);
+  if(r){ price = r.price; name = r.name||name; }
+  selectedAssetMeta = { code, name, price, type: newAssetType };
+  status.textContent = price ? `現價：${price} (${name})` : `${name}（無法取得現價）`;
+  status.style.color = price ? '#2ec4a9' : '#f0a06a';
+  recalcAssetCost();
+}
+
+// 平均成本 = 投入金額 / 股數（系統計算）
+function recalcAssetCost(){
+  const shares = parseFloat(document.getElementById('add-asset-shares').value)||0;
+  const invested = parseFloat(document.getElementById('add-asset-invested').value)||0;
+  let cost = 0;
+  if(shares && invested) cost = Math.abs(invested/shares);
+  else if(selectedAssetMeta?.price) cost = selectedAssetMeta.price;
+  document.getElementById('add-asset-cost').value = cost.toFixed(2);
+}
+
 function openAddAssetModal(){
+  selectedAssetMeta = null;
   document.getElementById('add-asset-code').value='';
   document.getElementById('add-asset-shares').value='';
   document.getElementById('add-asset-invested').value='';
   document.getElementById('add-asset-cost').value='0.00';
-  const today=dateStr(new Date(2026,5,4));
-  document.getElementById('add-asset-date').value='2026年6月4日';
-  document.getElementById('add-asset-date-val').value=today;
+  document.getElementById('asset-code-dropdown').style.display='none';
+  document.getElementById('asset-code-status').textContent='';
+  const d = new Date();
+  document.getElementById('add-asset-date').value=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  document.getElementById('add-asset-date-val').value=todayStr();
   newAssetType='tw';
   document.querySelectorAll('.type-tab').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.getElementById('add-asset-code').placeholder='輸入台股代碼或名稱';
   document.getElementById('add-asset-modal').classList.add('open');
 }
+
 function saveNewAsset(){
-  const code=document.getElementById('add-asset-code').value.trim().toUpperCase();
-  if(!code)return;
-  const shares=parseFloat(document.getElementById('add-asset-shares').value)||0;
-  const invested=parseFloat(document.getElementById('add-asset-invested').value)||0;
-  const cost=parseFloat(document.getElementById('add-asset-cost').value)||0;
-  const date=document.getElementById('add-asset-date-val').value;
-  const holdAvg=shares?invested/shares:cost;
-  const asset={
-    id:genId(),code,name:code,type:newAssetType,currentPrice:cost||0,
-    txns:[{id:genId(),date,shares,invested,avgCost:cost,holdAvg:parseFloat(fmtNum(holdAvg))}]
-  };
-  assets.push(asset);saveAssets();closeModal('add-asset-modal');renderCangku();
+  const code = document.getElementById('add-asset-code').value.trim().toUpperCase();
+  if(!code){ alert('請輸入代碼'); return; }
+  const shares = parseFloat(document.getElementById('add-asset-shares').value)||0;
+  const invested = parseFloat(document.getElementById('add-asset-invested').value)||0;
+  const cost = parseFloat(document.getElementById('add-asset-cost').value)||0;
+  const date = document.getElementById('add-asset-date-val').value;
+  const holdAvg = shares && invested ? invested/shares : cost;
+  const name = selectedAssetMeta?.name || code;
+  const price = selectedAssetMeta?.price || cost;
+
+  // Check duplicate
+  if(assets.find(a=>a.code===code)){
+    // Add txn to existing asset instead
+    const existing = assets.find(a=>a.code===code);
+    const totalShares = getAssetShares(existing)+shares;
+    const totalInvested = getAssetInvested(existing)+invested;
+    const newHoldAvg = totalShares ? totalInvested/totalShares : 0;
+    existing.txns.push({id:genId(),date,shares,invested,avgCost:parseFloat(fmtNum(cost)),holdAvg:parseFloat(fmtNum(newHoldAvg))});
+    if(price) existing.currentPrice = price;
+  } else {
+    assets.push({
+      id:genId(), code, name, type:newAssetType, currentPrice:price,
+      priceDate: price ? todayStr() : null,
+      txns:[{id:genId(),date,shares,invested,avgCost:parseFloat(fmtNum(cost)),holdAvg:parseFloat(fmtNum(holdAvg))}]
+    });
+  }
+
+  // ---- Linkage: update cash ----
+  if(invested !== 0) applyTxnToCash(newAssetType, invested, false);
+
+  saveAssets(); closeModal('add-asset-modal'); renderCangku();
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', e=>{
+  const dd = document.getElementById('asset-code-dropdown');
+  if(dd && !dd.contains(e.target) && e.target.id !== 'add-asset-code'){
+    dd.style.display='none';
+  }
+});
+
+// ============================================================
+// 現價更新（進入現倉頁時，對所有資產做每日一次更新）
+// ============================================================
+async function refreshAllPrices(){
+  const today = todayStr();
+  const toUpdate = assets.filter(a => a.priceDate !== today);
+  if(!toUpdate.length) return;
+
+  // Update quietly in background
+  for(const asset of toUpdate){
+    try {
+      let r = null;
+      if(asset.type==='tw') r = await fetchTWPrice(asset.code);
+      else if(asset.type==='us') r = await fetchUSPrice(asset.code);
+      else r = await fetchCryptoPrice(asset.code);
+      if(r && r.price){
+        asset.currentPrice = r.price;
+        asset.name = r.name || asset.name;
+        asset.priceDate = today;
+      }
+    } catch(e){}
+  }
+  saveAssets();
+  // Re-render if still on cangku screen
+  const active = document.querySelector('.screen.active');
+  if(active && active.id === 'screen-cangku') renderCangku();
 }
 
 // ============================================================
@@ -1258,30 +2035,32 @@ function saveNewAsset(){
 function renderSettings(){
   const total=calcTotalAssets();
   const twdCash=settings.twdCash||0;
-  const usdCash=(settings.usdCash||0)*USD_TO_TWD;
-  const twStocks=assets.filter(a=>a.type==='tw').reduce((s,a)=>s+getAssetCurrentVal(a),0);
-  const usAll=assets.filter(a=>a.type==='us'||a.type==='crypto').reduce((s,a)=>s+getAssetCurrentVal(a),0);
+  const usdCashTWD=(settings.usdCash||0)*USD_TO_TWD;
+  const twInvested=calcTwStockInvested();
+  const usInvested=calcUsStockInvested();
 
   document.getElementById('settings-header').innerHTML=`
     <div class="cangku-header-title" style="font-size:13px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:4px;">資產現值</div>
     <div class="cangku-header-total" style="font-size:26px;">$${Math.round(total).toLocaleString()}</div>`;
 
-  // Render settings pie
   const content=document.getElementById('settings-content');content.innerHTML='';
+
+  // Donut pie (same style as 記帳 pie)
   const pieWrap=document.createElement('div');pieWrap.className='settings-pie-wrap';
   pieWrap.innerHTML='<canvas id="settingsPie" width="200" height="200"></canvas>';
   content.appendChild(pieWrap);
 
-  // Legend
-  const legend=document.createElement('div');legend.className='settings-legend';
   const cats=[
     {label:'台幣現金',val:twdCash,color:'#2ec4a9'},
-    {label:'美金現金',val:usdCash,color:'#e84040'},
-    {label:'台股投入',val:twStocks,color:'#4a9ede'},
-    {label:'美股投入',val:usAll,color:'#f0a06a'},
+    {label:'美金現金',val:usdCashTWD,color:'#e84040'},
+    {label:'台股投入',val:Math.abs(twInvested),color:'#4a9ede'},
+    {label:'美股投入',val:Math.abs(usInvested),color:'#f0a06a'},
   ];
+  const pieTotal=cats.reduce((s,c)=>s+c.val,0)||1;
+
+  const legend=document.createElement('div');legend.className='settings-legend';
   cats.forEach(c=>{
-    const pct=total?(c.val/total*100).toFixed(1):'0.0';
+    const pct=pieTotal?(c.val/pieTotal*100).toFixed(1):'0.0';
     const item=document.createElement('div');item.className='settings-legend-item';
     item.innerHTML=`<div class="settings-legend-left"><div class="settings-legend-dot" style="background:${c.color}"></div><span class="settings-legend-name">${c.label}</span></div>
       <span class="settings-legend-val">${pct}% ($${Math.round(c.val).toLocaleString()})</span>`;
@@ -1289,11 +2068,10 @@ function renderSettings(){
   });
   content.appendChild(legend);
 
-  // Divider
   const div=document.createElement('div');div.className='settings-divider';content.appendChild(div);
 
-  // Month stats from records
-  const now=new Date(2026,5,4);
+  // Current month stats — all records this calendar month (start to end of month, or today if current month)
+  const now=new Date();
   const mRecs=getRecordsByMonth(now.getFullYear(),now.getMonth());
   const mExp=sumType(mRecs,'expense'),mInc=sumType(mRecs,'income');
   const stats=document.createElement('div');
@@ -1304,24 +2082,31 @@ function renderSettings(){
 
   setTimeout(()=>{
     const canvas=document.getElementById('settingsPie');if(!canvas)return;
-    const ctx=canvas.getContext('2d');const S=200;canvas.width=S;canvas.height=S;
+    canvas.width=200;canvas.height=200;
+    // Draw donut using same helper but scaled for 200px
+    const ctx=canvas.getContext('2d');const S=200;
     ctx.clearRect(0,0,S,S);
-    const cx=S/2,cy=S/2,R=90;
+    const cx=S/2,cy=S/2,R=80,innerR=42;
+    const segs=cats.filter(c=>c.val>0);
+    const pt=segs.reduce((s,c)=>s+c.val,0);
+    if(!pt){ctx.strokeStyle='#2a3a4a';ctx.lineWidth=32;ctx.beginPath();ctx.arc(cx,cy,(R+innerR)/2,0,Math.PI*2);ctx.stroke();return;}
     let a=-Math.PI/2;
-    cats.forEach(c=>{
-      if(!c.val)return;
-      const sw=(c.val/total)*Math.PI*2;
-      ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a,a+sw);ctx.closePath();
+    segs.forEach(c=>{
+      const sw=(c.val/pt)*Math.PI*2;
+      ctx.beginPath();
+      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+      ctx.arc(cx,cy,R,a,a+sw);ctx.arc(cx,cy,innerR,a+sw,a,true);ctx.closePath();
       ctx.fillStyle=c.color;ctx.fill();
-      ctx.strokeStyle='#0d1b2a';ctx.lineWidth=2;ctx.beginPath();
-      ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();
+      ctx.strokeStyle='#0d1b2a';ctx.lineWidth=2.5;ctx.beginPath();
+      ctx.moveTo(cx+innerR*Math.cos(a),cy+innerR*Math.sin(a));
+      ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();
       a+=sw;
     });
   },50);
 }
 function openSettingsModal(){
-  document.getElementById('settings-twd').value=settings.twdCash||0;
-  document.getElementById('settings-usd').value=settings.usdCash||0;
+  document.getElementById('settings-twd').value=Math.round(settings.twdCash||0);
+  document.getElementById('settings-usd').value=(settings.usdCash||0).toFixed(3);
   document.getElementById('settings-modal').classList.add('open');
 }
 function saveSettings(){
@@ -1330,11 +2115,19 @@ function saveSettings(){
   saveSettingsData();closeModal('settings-modal');renderSettings();
 }
 function backupData(){
-  const data=JSON.stringify({records,assets,settings});
-  const blob=new Blob([data],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='backup.json';a.click();
-  URL.revokeObjectURL(url);
+  const data = JSON.stringify({records, assets, settings}, null, 2);
+  const filename = `jizhang-backup-${todayStr()}.json`;
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+
+  // Always trigger file download first — user can then upload to Google Drive etc.
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
 }
 function restoreData(){
   const input=document.createElement('input');input.type='file';input.accept='.json';
@@ -1360,7 +2153,15 @@ function restoreData(){
 // ============================================================
 // MODAL MANAGEMENT
 // ============================================================
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  // If we have a pie-detail hook (editing from pie-detail), use it
+  if(id==='modal-overlay' && window._pieDetailCloseHook){
+    const hook = window._pieDetailCloseHook;
+    window._pieDetailCloseHook = null;
+    setTimeout(hook, 50);
+  }
+}
 
 // ============================================================
 // CALENDAR
@@ -1370,10 +2171,11 @@ function openCalendar(target){
   calCallbackTarget=target;
   let val;
   if(target==='ledger') val=document.getElementById('modal-date-val').value;
+  else if(target==='ledger-date') val=dateStr(currentDate); // top bar click
   else if(target==='asset') val=document.getElementById('add-asset-date-val').value;
   else if(target==='txn') val=document.getElementById('add-txn-date-val').value;
   if(val){const d=parseDate(val);calYear=d.getFullYear();calMonth=d.getMonth();}
-  else{calYear=2026;calMonth=5;}
+  else{const nd=new Date();calYear=nd.getFullYear();calMonth=nd.getMonth();}
   renderCalGrid();
   document.getElementById('cal-overlay').classList.add('open');
 }
@@ -1383,9 +2185,10 @@ function renderCalGrid(){
   document.getElementById('cal-label').textContent=`${calYear}年 ${calMonth+1}月`;
   let sel='';
   if(calCallbackTarget==='ledger') sel=document.getElementById('modal-date-val').value;
+  else if(calCallbackTarget==='ledger-date') sel=dateStr(currentDate);
   else if(calCallbackTarget==='asset') sel=document.getElementById('add-asset-date-val').value;
   else if(calCallbackTarget==='txn') sel=document.getElementById('add-txn-date-val').value;
-  const today=dateStr(new Date(2026,5,4));
+  const today=todayStr();
   const grid=document.getElementById('cal-grid');
   grid.innerHTML=['日','一','二','三','四','五','六'].map(d=>`<div class="cal-header">${d}</div>`).join('');
   const first=new Date(calYear,calMonth,1).getDay();
@@ -1406,6 +2209,10 @@ function selectCalDay(ds){
   if(calCallbackTarget==='ledger'){
     document.getElementById('modal-date-val').value=ds;
     document.getElementById('modal-date-display').value=formatDateDisplay(ds);
+  } else if(calCallbackTarget==='ledger-date'){
+    // Jump ledger to selected date
+    currentDate=parseDate(ds);
+    renderLedger();
   } else if(calCallbackTarget==='asset'){
     document.getElementById('add-asset-date-val').value=ds;
     document.getElementById('add-asset-date').value=label;
@@ -1431,6 +2238,234 @@ document.addEventListener('keydown',e=>{
   document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});
 });
 document.getElementById('cal-overlay').addEventListener('click',function(e){if(e.target===this)closeCalendar();});
+
+// ============================================================
+// DROPBOX BACKUP / RESTORE
+// Using Dropbox Chooser SDK (no OAuth needed for restore)
+// and Dropbox API v2 upload for backup (app key required)
+// ============================================================
+const DROPBOX_APP_KEY = 3azbbmrn3npc79z ; // 見說明
+
+// Load Dropbox SDK lazily
+function loadDropboxSDK(cb){
+  if(window.Dropbox){ cb(); return; }
+  const s=document.createElement('script');
+  s.src='https://www.dropbox.com/static/api/2/dropins.js';
+  s.id='dropboxjs';
+  s.setAttribute('data-app-key', DROPBOX_APP_KEY);
+  s.onload=cb;
+  document.head.appendChild(s);
+}
+
+function setDropboxStatus(msg, color){
+  const el=document.getElementById('dropbox-status');
+  if(el){ el.textContent=msg; el.style.color=color||'#7a9ab8'; }
+}
+
+// 備份：先取得授權 token → 上傳 JSON 到 Dropbox
+function dropboxBackup(){
+  // For a simple token-based approach: use PKCE OAuth popup
+  // If no app key configured, fall back to local download
+  if(DROPBOX_APP_KEY==='YOUR_DROPBOX_APP_KEY'){
+    setDropboxStatus('請先在設置中設定 Dropbox App Key', '#f0a06a');
+    // Still do local download as fallback
+    backupData();
+    return;
+  }
+  loadDropboxSDK(()=>_doDropboxBackup());
+}
+
+async function _doDropboxBackup(){
+  setDropboxStatus('連線 Dropbox 中…', '#7a9ab8');
+  const token = await getDropboxToken();
+  if(!token){ setDropboxStatus('授權取消', '#e84040'); return; }
+  const data = JSON.stringify({records, assets, settings}, null, 2);
+  const filename = `/jizhang-backup-${todayStr()}.json`;
+  try {
+    const res = await fetch('https://content.dropboxapi.com/2/files/upload', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Dropbox-API-Arg': JSON.stringify({
+          path: filename,
+          mode: 'overwrite',
+          autorename: false,
+          mute: false
+        }),
+        'Content-Type': 'application/octet-stream'
+      },
+      body: data
+    });
+    if(res.ok){
+      const j = await res.json();
+      setDropboxStatus(`✓ 已備份至 Dropbox: ${j.name}`, '#2ec4a9');
+    } else {
+      const err = await res.json();
+      setDropboxStatus('備份失敗: '+err.error_summary, '#e84040');
+    }
+  } catch(e){
+    setDropboxStatus('網路錯誤: '+e.message, '#e84040');
+  }
+}
+
+// 還原：用 Dropbox Chooser 選擇備份檔案
+function dropboxRestore(){
+  if(DROPBOX_APP_KEY==='YOUR_DROPBOX_APP_KEY'){
+    setDropboxStatus('請先設定 Dropbox App Key', '#f0a06a');
+    restoreData(); // fallback to local
+    return;
+  }
+  loadDropboxSDK(()=>_doDropboxRestore());
+}
+
+function _doDropboxRestore(){
+  setDropboxStatus('開啟 Dropbox 選擇器…', '#7a9ab8');
+  if(!window.Dropbox){ setDropboxStatus('Dropbox SDK 載入失敗', '#e84040'); return; }
+  Dropbox.choose({
+    success: async function(files){
+      if(!files.length) return;
+      setDropboxStatus('下載備份中…', '#7a9ab8');
+      try {
+        const res = await fetch(files[0].link);
+        const text = await res.text();
+        const d = JSON.parse(text);
+        if(d.records) records=d.records;
+        if(d.assets) assets=d.assets;
+        if(d.settings) settings=d.settings;
+        saveRecords(); saveAssets(); saveSettingsData();
+        setDropboxStatus('✓ 還原成功！', '#2ec4a9');
+        closeModal('settings-modal');
+        renderSettings();
+      } catch(e){
+        setDropboxStatus('還原失敗: '+e.message, '#e84040');
+      }
+    },
+    cancel: function(){ setDropboxStatus('', ''); },
+    linkType: 'direct',
+    multiselect: false,
+    extensions: ['.json'],
+    folderselect: false
+  });
+}
+
+// Simple PKCE OAuth token flow (opens popup)
+let _dropboxTokenResolve = null;
+function getDropboxToken(){
+  return new Promise(resolve=>{
+    // Check localStorage cache
+    const cached = localStorage.getItem('dbx_token');
+    const exp = parseInt(localStorage.getItem('dbx_token_exp')||'0');
+    if(cached && Date.now() < exp){ resolve(cached); return; }
+    _dropboxTokenResolve = resolve;
+    // Open Dropbox OAuth popup
+    const state = Math.random().toString(36).substr(2);
+    const redirectUri = encodeURIComponent(window.location.href.split('?')[0]);
+    const url = `https://www.dropbox.com/oauth2/authorize?`+
+      `client_id=${DROPBOX_APP_KEY}&response_type=token`+
+      `&redirect_uri=${redirectUri}&state=${state}`;
+    const popup = window.open(url,'dropbox_auth','width=600,height=700');
+    // Poll for token in URL hash (redirect_uri brings token back)
+    const check = setInterval(()=>{
+      try {
+        if(popup.closed){ clearInterval(check); resolve(null); return; }
+        const hash = popup.location.hash;
+        if(hash && hash.includes('access_token')){
+          clearInterval(check);
+          popup.close();
+          const params = new URLSearchParams(hash.slice(1));
+          const token = params.get('access_token');
+          const expiresIn = parseInt(params.get('expires_in')||'14400')*1000;
+          localStorage.setItem('dbx_token', token);
+          localStorage.setItem('dbx_token_exp', String(Date.now()+expiresIn));
+          resolve(token);
+        }
+      } catch(e){ /* cross-origin, wait */ }
+    }, 500);
+  });
+}
+
+// ============================================================
+// YEAR PICKER
+// ============================================================
+let yearPickerBase = 2020; // shows yearPickerBase to yearPickerBase+11
+
+function openYearPicker(){
+  yearPickerBase = currentYear - 5; // center around current year
+  renderYearPickerGrid();
+  document.getElementById('year-picker-overlay').classList.add('open');
+}
+function closeYearPicker(){
+  document.getElementById('year-picker-overlay').classList.remove('open');
+}
+function yearPickerNav(delta){
+  yearPickerBase += delta;
+  renderYearPickerGrid();
+}
+function renderYearPickerGrid(){
+  const grid = document.getElementById('year-picker-grid');
+  let html = '';
+  for(let y = yearPickerBase; y < yearPickerBase+12; y++){
+    const active = y === currentYear;
+    html += `<button onclick="selectYear(${y})"
+      style="padding:10px 4px;border-radius:8px;border:${active?'none':'1px solid #dde4f0'};
+      background:${active?'#2ec4a9':'#f8fafc'};color:${active?'white':'#1a2535'};
+      font-size:14px;font-weight:${active?'700':'500'};cursor:pointer;font-family:inherit;">
+      ${y}
+    </button>`;
+  }
+  grid.innerHTML = html;
+}
+function selectYear(y){
+  currentYear = y;
+  closeYearPicker();
+  renderYear();
+}
+document.getElementById('year-picker-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeYearPicker();
+});
+
+// ============================================================
+// MONTH PICKER
+// ============================================================
+let monthPickerYear = 2026;
+const MONTH_NAMES = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+function openMonthPicker(){
+  monthPickerYear = currentYear;
+  renderMonthPickerGrid();
+  document.getElementById('month-picker-overlay').classList.add('open');
+}
+function closeMonthPicker(){
+  document.getElementById('month-picker-overlay').classList.remove('open');
+}
+function monthPickerNavYear(delta){
+  monthPickerYear += delta;
+  renderMonthPickerGrid();
+}
+function renderMonthPickerGrid(){
+  document.getElementById('month-picker-year').textContent = monthPickerYear+'年';
+  const grid = document.getElementById('month-picker-grid');
+  let html = '';
+  MONTH_NAMES.forEach((name, idx)=>{
+    const active = idx === currentMonth && monthPickerYear === currentYear;
+    html += `<button onclick="selectMonth(${idx},${monthPickerYear})"
+      style="padding:10px 4px;border-radius:8px;border:${active?'none':'1px solid #dde4f0'};
+      background:${active?'#2ec4a9':'#f8fafc'};color:${active?'white':'#1a2535'};
+      font-size:13px;font-weight:${active?'700':'500'};cursor:pointer;font-family:inherit;">
+      ${name}
+    </button>`;
+  });
+  grid.innerHTML = html;
+}
+function selectMonth(m, y){
+  currentMonth = m;
+  currentYear = y;
+  closeMonthPicker();
+  renderMonth();
+}
+document.getElementById('month-picker-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeMonthPicker();
+});
 
 // ============================================================
 // INIT
