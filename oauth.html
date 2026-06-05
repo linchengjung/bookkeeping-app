@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>授權中…</title>
+<style>
+  body { margin:0; display:flex; align-items:center; justify-content:center;
+    height:100vh; background:#0d1b2a; font-family:sans-serif; flex-direction:column; gap:16px; }
+  p { color:#2ec4a9; font-size:16px; font-weight:600; text-align:center; padding:0 20px; }
+  .spin { width:36px; height:36px; border:4px solid #1e2d3d;
+    border-top-color:#2ec4a9; border-radius:50%; animation:s 0.8s linear infinite; }
+  @keyframes s { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="spin"></div>
+<p id="msg">授權中，請稍候…</p>
+<script>
+(function(){
+  const hash = window.location.hash.slice(1);
+  const params = new URLSearchParams(hash);
+  const accessToken = params.get('access_token');
+  const expiresIn = parseInt(params.get('expires_in') || '3600');
+  const tokenType = params.get('token_type') || '';
+
+  function sendAndClose(msgObj){
+    if(window.opener){
+      window.opener.postMessage(msgObj, '*');
+    }
+    setTimeout(()=>window.close(), 600);
+  }
+
+  if(accessToken){
+    document.getElementById('msg').textContent = '授權成功！視窗即將關閉…';
+    // Detect provider by scope or state
+    // Google tokens start with 'ya29.' or similar; Dropbox tokens are different
+    // We send both types and let the app figure it out by which promise is waiting
+    const isGoogle = tokenType.toLowerCase()==='bearer' && !params.get('uid');
+    sendAndClose({
+      type: isGoogle ? 'google_token' : 'dropbox_token',
+      token: accessToken,
+      expires_in: expiresIn,
+      exp: Date.now() + expiresIn * 1000
+    });
+  } else {
+    document.getElementById('msg').textContent = '授權失敗，請關閉此視窗重試';
+    // Try both
+    sendAndClose({ type:'google_token', token:null, exp:0 });
+    if(window.opener) window.opener.postMessage({ type:'dropbox_token', token:null, exp:0 }, '*');
+    setTimeout(()=>window.close(), 1500);
+  }
+})();
+</script>
+</body>
+</html>
