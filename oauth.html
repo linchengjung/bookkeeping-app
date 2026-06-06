@@ -3,29 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google 授權</title>
+<title>Google 授權碼</title>
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:#0d1b2a; font-family:sans-serif; padding:24px 20px; min-height:100vh; }
-  h2 { color:#2ec4a9; font-size:18px; margin-bottom:16px; text-align:center; }
-  .card { background:#1a2a3a; border-radius:14px; padding:18px; margin-bottom:16px; }
-  .label { font-size:12px; color:#7a9ab8; font-weight:600; margin-bottom:8px; }
-  .token-box {
-    background:#0d1b2a; border-radius:8px; padding:12px;
-    font-size:12px; color:#2ec4a9; word-break:break-all;
-    line-height:1.6; font-family:monospace; cursor:pointer;
-    border:1.5px solid #2ec4a9;
+  body { background:#0d1b2a; font-family:sans-serif; padding:20px; min-height:100vh;
+    display:flex; flex-direction:column; }
+  h2 { color:#34a853; font-size:20px; text-align:center; margin-bottom:8px; }
+  .sub { color:#9ab0c8; font-size:13px; text-align:center; margin-bottom:20px; }
+  .step { background:#162030; border-radius:12px; padding:14px 16px;
+    font-size:14px; color:#9ab0c8; line-height:2; margin-bottom:16px; }
+  .step b { color:#2ec4a9; }
+  /* Token display box */
+  .token-wrap { background:#1a2a3a; border-radius:12px; padding:16px; margin-bottom:16px; }
+  .token-label { font-size:11px; color:#7a9ab8; font-weight:700; margin-bottom:8px; letter-spacing:0.5px; }
+  .token-text {
+    background:#0d1b2a; border-radius:8px; padding:14px;
+    font-size:11px; color:#2ec4a9; font-family:monospace;
+    word-break:break-all; line-height:1.6;
+    border:2px solid #2ec4a9; cursor:pointer;
+    user-select:all; -webkit-user-select:all;
   }
   .copy-btn {
-    width:100%; padding:14px; background:#2ec4a9; color:white; border:none;
-    border-radius:10px; font-size:15px; font-weight:700; cursor:pointer;
-    margin-top:12px; font-family:sans-serif;
+    width:100%; padding:16px; background:#2ec4a9; color:#0d1b2a;
+    border:none; border-radius:12px; font-size:16px; font-weight:800;
+    cursor:pointer; margin-top:10px; font-family:sans-serif;
+    transition:background 0.2s;
   }
   .copy-btn:active { background:#25a892; }
-  .tip { font-size:12px; color:#7a9ab8; line-height:1.7; }
-  .tip b { color:white; }
-  .err { color:#e84040; font-size:14px; text-align:center; padding:20px; }
-  .copied { background:#34a853 !important; }
+  .copy-btn.done { background:#34a853; color:white; }
+  .back-tip { color:#7a9ab8; font-size:13px; text-align:center;
+    margin-top:16px; padding:12px; background:#162030; border-radius:10px; }
+  .err { color:#e84040; font-size:15px; text-align:center;
+    padding:40px 20px; }
 </style>
 </head>
 <body>
@@ -35,57 +44,50 @@
   const hash = window.location.hash.slice(1);
   const params = new URLSearchParams(hash);
   const token = params.get('access_token');
-  const expiresIn = parseInt(params.get('expires_in')||'3600');
   const content = document.getElementById('content');
 
   if(!token){
-    content.innerHTML = '<div class="err">授權失敗或被取消，請關閉此頁面重試。</div>';
+    content.innerHTML = '<div class="err">⚠️ 授權失敗或已取消<br><br>請按手機返回鍵，回到 App 重試。</div>';
     return;
   }
 
   content.innerHTML = `
-    <h2>✓ 授權成功！</h2>
-    <div class="card">
-      <div class="label">你的授權碼（點擊複製）</div>
-      <div class="token-box" id="token-box" onclick="copyToken()">${token}</div>
-      <button class="copy-btn" id="copy-btn" onclick="copyToken()">📋 點此複製授權碼</button>
+    <h2>✅ 授權成功！</h2>
+    <p class="sub">請按照以下步驟完成連線</p>
+    <div class="step">
+      <b>① 長按</b>下方授權碼並選「全選」<br>
+      <b>② 點「複製」</b>把授權碼複製起來<br>
+      <b>③ 按手機返回鍵</b>回到記帳 App<br>
+      <b>④ 貼上</b>授權碼並點「確認連線」
     </div>
-    <div class="card">
-      <div class="tip">
-        <b>步驟：</b><br>
-        1. 點上方「複製授權碼」按鈕<br>
-        2. 回到記帳 App<br>
-        3. 將授權碼貼入輸入框<br>
-        4. 點「確認」即完成連線<br><br>
-        <span style="color:#f0a06a;">⚠️ 授權碼約 1 小時後失效，失效後重新操作即可。</span>
-      </div>
-    </div>`;
+    <div class="token-wrap">
+      <div class="token-label">▼ 授權碼（長按複製）</div>
+      <div class="token-text" id="token-text" onclick="copyToken()">${token}</div>
+      <button class="copy-btn" id="copy-btn" onclick="copyToken()">
+        📋 點此複製授權碼
+      </button>
+    </div>
+    <div class="back-tip">複製後請按<b style="color:white;">手機返回鍵</b>回到記帳 App，將授權碼貼入輸入框</div>`;
 
   function copyToken(){
+    const btn = document.getElementById('copy-btn');
     navigator.clipboard.writeText(token).then(()=>{
-      const btn = document.getElementById('copy-btn');
-      btn.textContent = '✓ 已複製！請返回 App 貼上';
-      btn.classList.add('copied');
+      btn.textContent = '✓ 已複製！請按返回鍵回到 App';
+      btn.classList.add('done');
     }).catch(()=>{
-      // Fallback: select the text
-      const box = document.getElementById('token-box');
+      // Fallback: select all
+      const el = document.getElementById('token-text');
       const range = document.createRange();
-      range.selectNodeContents(box);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
-      document.execCommand('copy');
-      const btn = document.getElementById('copy-btn');
-      btn.textContent = '✓ 已複製！請返回 App 貼上';
-      btn.classList.add('copied');
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try { document.execCommand('copy'); } catch(e){}
+      btn.textContent = '✓ 已複製！請按返回鍵回到 App';
+      btn.classList.add('done');
     });
   }
   window.copyToken = copyToken;
-
-  // Also try deep link (bonus — works if manifest is patched)
-  try {
-    const deepLink = 'jizhang://oauth#' + hash;
-    window.location.href = deepLink;
-  } catch(e){}
 })();
 </script>
 </body>
